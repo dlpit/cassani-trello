@@ -17,7 +17,7 @@ import Select from '@mui/material/Select'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness'
-
+import Container from '@mui/material/Container'
 
 function SelectMode() {
   const { mode, setMode } = useColorScheme()
@@ -62,41 +62,12 @@ function SelectMode() {
 }
 
 // Hàm lưu lấy dữ liệu local về dark mode
-function ModeToggle() {
-  const { mode, setMode } = useColorScheme()
-  return (
-    <Button
-      onClick={() => {
-        setMode(mode === 'light' ? 'dark' : 'light')
-      }}
-    >
-      {mode === 'light' ? 'Turn dark' : 'Turn light'}
-    </Button>
-  )
-}
 
 function App() {
   return (
-    <>
+    <Container sx={{ height: '100vh', backgroundColor: 'primary.main' }}>
       <SelectMode/>
-      <hr />
-      <ModeToggle />
-      <hr />
-      <div>Nguyễn Quốc Huy</div>
-      <Typography variant="body2" color='text.secondary'>To install Roboto through the Google Web Fonts CDN</Typography>
-      <Button variant="contained">Hello world</Button>
-      <br />
-      <AccessAlarmIcon />
-      <ThreeDRotation />
-
-      <HomeIcon />
-      <HomeIcon color="primary" />
-      <HomeIcon color="secondary" />
-      <HomeIcon color="success" />
-      <HomeIcon color="action" />
-      <HomeIcon color="disabled" />
-      <HomeIcon sx={{ color: pink[500] }} />
-    </>
+    </Container>
   )
 }
 
