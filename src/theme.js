@@ -4,8 +4,8 @@ import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 // Create a theme instance.
 const theme = extendTheme({
   casani: {
-    appBarHeight: '48px',
-    boarBarHeight: '56px'
+    appBarHeight: '56px',
+    boarBarHeight: '64px'
   },
   colorSchemes: {
     light: {
