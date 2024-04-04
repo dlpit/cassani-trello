@@ -25,7 +25,8 @@ function AppBar() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      gap: 2
+      gap: 2,
+      overflowX: 'auto'
     }}>
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
         <AppsIcon sx={{ color: 'primary.main' }} />
