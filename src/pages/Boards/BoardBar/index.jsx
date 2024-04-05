@@ -7,7 +7,9 @@ import SpeedIcon from '@mui/icons-material/Speed'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import { Tooltip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
+import Button from '@mui/material/Button'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 const CUSTOM_STYLE = {
   color: 'primary.main',
@@ -67,7 +69,17 @@ function BoardBar() {
         />
       </Box>
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2 }}>
-        <AvatarGroup max={4}>
+        <Button variant="outlined" startIcon={ <PersonAddIcon /> }>Invite</Button>
+        <AvatarGroup
+          max={4}
+          sx={{
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              fontSize: 16
+            }
+          }}
+        >
           <Tooltip title="quochuy">
             <Avatar
               alt="Nguyen Quoc Huy"
