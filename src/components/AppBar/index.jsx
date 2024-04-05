@@ -15,6 +15,7 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import Tooltip from '@mui/material/Tooltip'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import Profiles from './Menu/Profiles'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 
 
 function AppBar() {
@@ -32,7 +33,7 @@ function AppBar() {
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
         <AppsIcon sx={{ color: 'primary.main' }} />
         <Box sx={{display: 'flex', alignItems: 'center', gap: 0.5}}>
-          <SvgIcon component={casaniLogo} inheritViewBox />
+          <SvgIcon component={ casaniLogo } inheritViewBox />
           <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold' }}
           >Cassani</Typography>
         </Box>
@@ -41,7 +42,7 @@ function AppBar() {
           <Recent />
           <Starred />
           <Templates />
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={ <AddCircleOutlineIcon /> }>Create</Button>
         </Box>
       </Box>
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
