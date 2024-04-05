@@ -27,7 +27,7 @@ const theme = extendTheme({
         body: {
           '*::-webkit-scrollbar': {
             width: '8px',
-            height: '4px'
+            height: '6px'
           },
           '*::-webkit-scrollbar-thumb': {
             background: '#E2D7C1',
