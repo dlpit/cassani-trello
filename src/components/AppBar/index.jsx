@@ -16,11 +16,13 @@ import Tooltip from '@mui/material/Tooltip'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import Profiles from './Menu/Profiles'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-
+import InputAdornment from '@mui/material/InputAdornment'
+import SearchIcon from '@mui/icons-material/Search'
 
 function AppBar() {
   return (
     <Box sx={{
+      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#FED8B1' : '#212121'),
       width: '100%',
       height: (theme) => theme.casani.appBarHeight,
       display: 'flex',
@@ -30,31 +32,58 @@ function AppBar() {
       paddingX: 2,
       overflowX: 'auto'
     }}>
-      <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
-        <AppsIcon sx={{ color: 'primary.main' }} />
-        <Box sx={{display: 'flex', alignItems: 'center', gap: 0.5}}>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <AppsIcon sx={{ color: '#4C4A45' }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <SvgIcon component={ casaniLogo } inheritViewBox />
-          <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold' }}
+          <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold', color:'#0095FF' }}
           >Cassani</Typography>
         </Box>
-        <Box sx={{ display: { xs: 'none', md: 'flex'}, gap: 1 }}>
+        <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <WorkSpaces />
           <Recent />
           <Starred />
           <Templates />
-          <Button variant="outlined" startIcon={ <AddCircleOutlineIcon /> }>Create</Button>
+          <Button
+            sx = {{
+              color: '#4C4A45',
+              border: 'none',
+              '&:hover': { border: 'none' }
+            }}
+            variant="outlined"
+            startIcon={ <AddCircleOutlineIcon /> }
+          >
+            Create
+          </Button>
         </Box>
       </Box>
-      <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
-        <TextField id="outlined-search" label="Search ..." type="search" size='small' sx={{ minWidth: '120px' }}/>
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+        <TextField
+          id="outlined-search"
+          label="Search ..."
+          type="search"
+          size='small'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: '#4C4A45' }}/>
+              </InputAdornment>
+            )
+          }}
+          sx={{
+            minWidth: '120px',
+            maxWidth: '160px',
+            '& label': { color: '#4C4A45' },
+            '& label.Mui-focused': { color: '#4C4A45' }
+          }}/>
         <SelectMode />
         <Tooltip title="Notifycation">
           <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneIcon sx={{ color: 'primary.main' }}/>
+            <NotificationsNoneIcon sx={{ color: '#4C4A45' }}/>
           </Badge>
         </Tooltip>
         <Tooltip title="Help">
-          <HelpOutlineIcon sx={{ cursor: 'pointer', color: 'primary.main' }}/>
+          <HelpOutlineIcon sx={{ cursor: 'pointer', color: '#4C4A45' }}/>
         </Tooltip>
         <Profiles />
       </Box>
