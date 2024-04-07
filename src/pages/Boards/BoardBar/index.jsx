@@ -26,7 +26,7 @@ const CUSTOM_STYLE = {
 function BoardBar() {
   return (
     <Box sx={{
-      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#A5917B' : '#4C4A45'),
+      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#BABCA7' : '#4C4A45'),
       width: '100%',
       height: (theme) => theme.casani.boarBarHeight,
       display: 'flex',
@@ -35,7 +35,8 @@ function BoardBar() {
       gap: 2,
       paddingX: 2,
       overflowX: 'auto',
-      borderBottom: '1px solid #E2D7C1'
+      borderBottom: '1px solid #E2D7C1',
+      '&::-webkit-scrollbar-track': { m: 2 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Chip
@@ -87,7 +88,10 @@ function BoardBar() {
             '& .MuiAvatar-root': {
               width: 32,
               height: 32,
-              fontSize: 16
+              fontSize: 16,
+              color: '#F2F2F2',
+              cursor: 'pointer',
+              '&: first-of-type': { bgcolor: '#A5917B' }
             }
           }}
         >

@@ -25,7 +25,7 @@ function AppBar() {
   const [searchValue, setSearchValue] = useState('')
   return (
     <Box sx={{
-      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#4C4A45' : '#212121'),
+      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#786D60' : '#212121'),
       width: '100%',
       height: (theme) => theme.casani.appBarHeight,
       display: 'flex',
@@ -33,7 +33,8 @@ function AppBar() {
       justifyContent: 'space-between',
       gap: 2,
       paddingX: 2,
-      overflowX: 'auto'
+      overflowX: 'auto',
+      '&::-webkit-scrollbar-track': { m: 2 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <AppsIcon sx={{ color: '#F2F2F2BF' }} />
