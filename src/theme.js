@@ -1,11 +1,16 @@
 import { deepOrange, orange, blueGrey, cyan } from '@mui/material/colors'
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
 
+const APP_BAR_HEIGHT = '56px'
+const BOARD_BAR_HEIGHT = '64px'
+const BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_BAR_HEIGHT} - ${BOARD_BAR_HEIGHT})`
+
 // Create a theme instance.
 const theme = extendTheme({
   casani: {
-    appBarHeight: '56px',
-    boarBarHeight: '64px'
+    appBarHeight: APP_BAR_HEIGHT,
+    boarBarHeight: BOARD_BAR_HEIGHT,
+    boardContentHeight: BOARD_CONTENT_HEIGHT
   },
   // colorSchemes: {
   //   light:{
@@ -28,7 +33,7 @@ const theme = extendTheme({
             borderRadius: '8px'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            background: '#DDC7B6',
+            background: '#D1B496',
             borderRadius: '8px'
           }
         }
@@ -46,6 +51,13 @@ const theme = extendTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: { fontSize: '0.875rem' }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '&.MuiTypography-body1': { fontSize: '0.875rem' }
+        }
       }
     },
     MuiOutlinedInput: {
