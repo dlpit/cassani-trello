@@ -12,12 +12,12 @@ import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 
 const CUSTOM_STYLE = {
-  color: 'primary.main',
-  bgcolor: 'white',
+  color: '#F2F2F2',
+  bgcolor: 'transparent',
   border: 'none',
   borderRadius: '4px',
-  '& .MuiSvgIcon-root': {
-    color:'primary.main'
+  '.MuiSvgIcon-root': {
+    color:'#F2F2F2'
   },
   '&:hover': {
     bgcolor: 'primary.50'
@@ -26,6 +26,7 @@ const CUSTOM_STYLE = {
 function BoardBar() {
   return (
     <Box sx={{
+      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#A5917B' : '#4C4A45'),
       width: '100%',
       height: (theme) => theme.casani.boarBarHeight,
       display: 'flex',
@@ -34,7 +35,7 @@ function BoardBar() {
       gap: 2,
       paddingX: 2,
       overflowX: 'auto',
-      borderTop: '1px solid #90A4AE'
+      borderBottom: '1px solid #E2D7C1'
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Chip
@@ -69,7 +70,17 @@ function BoardBar() {
         />
       </Box>
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button variant="outlined" startIcon={ <PersonAddIcon /> }>Invite</Button>
+        <Button
+          variant="outlined" 
+          startIcon={ <PersonAddIcon /> }
+          sx={{
+            color: '#F2F2F2',
+            borderColor: '#F2F2F2',
+            '&:hover': { borderColor: '#F2F2F2' }
+          }}
+        >
+          Invite
+        </Button>
         <AvatarGroup
           max={4}
           sx={{
