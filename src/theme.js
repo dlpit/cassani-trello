@@ -1,25 +1,56 @@
-import { deepOrange, orange, blueGrey, cyan } from '@mui/material/colors'
-import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
-
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 const APP_BAR_HEIGHT = '56px'
 const BOARD_BAR_HEIGHT = '64px'
 const BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_BAR_HEIGHT} - ${BOARD_BAR_HEIGHT})`
+const COLUMN_HEADER_HEIGHT = '52px'
+const COLUMN_FOOTER_HEIGHT = '56px'
 
 // Create a theme instance.
 const theme = extendTheme({
   casani: {
     appBarHeight: APP_BAR_HEIGHT,
     boarBarHeight: BOARD_BAR_HEIGHT,
-    boardContentHeight: BOARD_CONTENT_HEIGHT
+    boardContentHeight: BOARD_CONTENT_HEIGHT,
+    columnHeaderHeight: COLUMN_HEADER_HEIGHT,
+    columFooterHeight: COLUMN_FOOTER_HEIGHT
   },
-  // colorSchemes: {
-  //   light:{
-  //     palette: { }
-  //   },
-  //   dark: {
-  //     palette: { }
-  //   }
-  // },
+  colorSchemes: {
+    light:{
+      palette: {
+        text: {
+          primary: '#212121'
+        },
+        card: {
+          background: 'white'
+        },
+        button: {
+          primary: '#212121'
+        },
+        menu: {
+          background: '#F2E8DA', // Màu nền cho menu
+          text: '#212121'
+        }
+      }
+    },
+    dark: {
+      palette: {
+        text: {
+          primary: '#F2F2F2BF',
+          card: '#212121'
+        },
+        card: {
+          background: '#F2E8DA',
+          text: '#212121'
+        },
+        button: {
+          primary: '#212121'
+        },
+        menu: {
+          primary: '#4C4A45'
+        }
+      }
+    }
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
