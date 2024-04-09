@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Box from '@mui/material/Box'
-import SelectMode from '~/components/SelectMode'
+import SelectMode from '~/components/SelectMode/SelectMode'
 import AppsIcon from '@mui/icons-material/Apps'
 import { ReactComponent as casaniLogo } from '~/assets/casani.svg'
 import SvgIcon from '@mui/material/SvgIcon'

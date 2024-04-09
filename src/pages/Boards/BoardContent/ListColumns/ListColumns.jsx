@@ -1,5 +1,7 @@
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
+import Button from '@mui/material/Button'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 
 function ListColumns() {
   return ( <Box sx={{
@@ -14,6 +16,29 @@ function ListColumns() {
     {/* Box 1 */}
     <Column />
     <Column />
+
+    {/* Box Add new Column */}
+    <Box sx={{
+      minWidth: '200px',
+      maxWidth: '200px',
+      mx: 2,
+      borderRadius: '6px',
+      height: 'fit-content',
+      bgcolor: (theme) => (theme.palette.bgColumn.transparent)
+    }}
+    >
+      <Button startIcon={<PlaylistAddIcon />}
+        sx={{
+          color: (theme) => (theme.palette.mode === 'light' ? '#315E8B' : '#A5917B'),
+          bgcolor: (theme) => (theme.palette.button.background),
+          width: '100%',
+          justifyContent: 'flex-start',
+          pl: 2.5,
+          py: 1
+        }}
+      >
+        Add new column</Button>
+    </Box>
   </Box>
 
   )

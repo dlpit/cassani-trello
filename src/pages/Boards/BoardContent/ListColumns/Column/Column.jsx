@@ -18,8 +18,6 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import ListCards from './ListCards/ListCards'
 
-const COLUMN_HEADER_HEIGHT = '52px'
-const COLUMN_FOOTER_HEIGHT = '56px'
 
 function Column() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -34,7 +32,8 @@ function Column() {
     <Box sx={{
       minWidth: '300px',
       maxWidth: '300px',
-      bgcolor: (theme) => (theme.palette.mode === 'light' ? '#F1E7D8' : '#A5917B'),
+      // bgcolor: (theme) => (theme.palette.mode === 'light' ? '#F1E7D8' : '#A5917B'),
+      bgcolor: (theme) => (theme.palette.bgColumn.background),
       ml: 2,
       borderRadius: '6px',
       height: 'fit-content',
@@ -42,7 +41,7 @@ function Column() {
     }}>
       {/* Box Column Header */}
       <Box sx={{
-        height: COLUMN_HEADER_HEIGHT,
+        height: (theme) => theme.casani.columnHeaderHeight,
         p: 2,
         display: 'flex',
         alignItems: 'center',
@@ -112,13 +111,16 @@ function Column() {
       <ListCards />
       {/* Box Column Footer */}
       <Box sx={{
-        height: COLUMN_FOOTER_HEIGHT,
+        height: (theme) => theme.casani.columFooterHeight,
         p: 2,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
       }}>
-        <Button startIcon={<AddCardIcon />}>Add new card</Button>
+        <Button sx={{
+          color: (theme) => (theme.palette.mode === 'light' ? '#315E8B' : '#C7E0FE')
+        }}
+        startIcon={<AddCardIcon />}>Add new card</Button>
         <Tooltip title="Drag to move">
           <DragHandleIcon sx={{ cursor: 'pointer' }}/>
         </Tooltip>

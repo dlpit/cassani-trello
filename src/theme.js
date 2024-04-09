@@ -25,7 +25,12 @@ const theme = extendTheme({
           background: 'white'
         },
         button: {
-          primary: '#212121'
+          primary: '#212121',
+          background: '#E4E4D3'
+        },
+        bgColumn: {
+          background: '#F1E7D8',
+          transparent: '#E4E4D3'
         },
         menu: {
           background: '#F2E8DA', // Màu nền cho menu
@@ -44,7 +49,11 @@ const theme = extendTheme({
           text: '#212121'
         },
         button: {
-          primary: '#212121'
+          primary: '#212121',
+          background: '#F1E7D8'
+        },
+        bgColumn: {
+          background: '#A5917B'
         },
         menu: {
           primary: '#4C4A45'
