@@ -18,6 +18,9 @@ import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import ListCards from './ListCards/ListCards'
 
+const COLUMN_HEADER_HEIGHT = '52px'
+const COLUMN_FOOTER_HEIGHT = '56px'
+
 function Column() {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -39,7 +42,7 @@ function Column() {
     }}>
       {/* Box Column Header */}
       <Box sx={{
-        height: (theme) => theme.casani.columnHeaderHeight,
+        height: COLUMN_HEADER_HEIGHT,
         p: 2,
         display: 'flex',
         alignItems: 'center',
@@ -105,11 +108,11 @@ function Column() {
           </Menu>
         </Box>
       </Box>
-      {/* List Card */}
+      {/* Box List Card */}
       <ListCards />
       {/* Box Column Footer */}
       <Box sx={{
-        height: (theme) => theme.casani.columFooterHeight,
+        height: COLUMN_FOOTER_HEIGHT,
         p: 2,
         display: 'flex',
         alignItems: 'center',
