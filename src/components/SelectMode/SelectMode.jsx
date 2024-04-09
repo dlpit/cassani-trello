@@ -24,10 +24,11 @@ function SelectMode() {
 
   return (
     <FormControl size="small" sx={{ minWidth: '120px' }}>
-      <InputLabel 
+      <InputLabel
         id="label-select-dark-light-mode"
         sx={{
           color: '#F2F2F2BF',
+          bgcolor: (theme) => (theme.palette.light),
           '&.Mui-focused': { color: '#F2F2F2BF' }
         }}
       >
