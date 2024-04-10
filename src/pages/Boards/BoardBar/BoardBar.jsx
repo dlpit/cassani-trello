@@ -10,6 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { capitalizeFirstLetter } from '~/utilities/formatters'
 
 const CUSTOM_STYLE = {
   color: '#F2F2F2',
@@ -23,7 +24,10 @@ const CUSTOM_STYLE = {
     bgcolor: 'primary.50'
   }
 }
-function BoardBar() {
+function BoardBar({ board }) {
+  // // Destructuring
+  // const { board } = props
+  // const board = props.board
   return (
     <Box sx={{
       bgcolor: (theme) => (theme.palette.mode === 'light' ? '#BABCA7' : '#4C4A45'),
@@ -42,13 +46,13 @@ function BoardBar() {
         <Chip
           sx={CUSTOM_STYLE}
           icon={<SpaceDashboardIcon />}
-          label="Board"
+          label={board?.title}
           clickable
         />
         <Chip
           sx={CUSTOM_STYLE}
           icon={<VpnLockIcon />}
-          label="Public/Private"
+          label={capitalizeFirstLetter(board?.type)}
           clickable
         />
         <Chip
