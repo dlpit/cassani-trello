@@ -23,7 +23,7 @@ function Card({ card }) {
     }}>
       {card?.cover &&
       <CardMedia
-        sx={{ height: 140, borderRadius: '4px' }}
+        sx={{ height: 140, borderRadius: '4px 4px 0 0' }}
         image={card?.cover}
         title="This is title"
       />

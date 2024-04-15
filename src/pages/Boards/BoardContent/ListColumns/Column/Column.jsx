@@ -19,8 +19,24 @@ import { useState } from 'react'
 import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utilities/sorts'
 
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
 
 function Column({ column }) {
+  const { attributes, listeners, setNodeRef, transform, transition
+  } = useSortable({
+    id: column._id,
+    data: { ...column }
+  })
+  const dntKitColumnStyles = {
+    // touchAction: 'none', // dành cho sensor default dạng PointerSensor
+    // https://github.com/clauderic/dnd-kit/issues/117
+    // Sử dụng Translate thay vì transform để kích thước column không bị thay đổi
+    transform: CSS.Translate.toString(transform),
+    transition
+  }
+
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -33,16 +49,21 @@ function Column({ column }) {
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
 
   return (
-    <Box sx={{
-      minWidth: '300px',
-      maxWidth: '300px',
-      // bgcolor: (theme) => (theme.palette.mode === 'light' ? '#F1E7D8' : '#A5917B'),
-      bgcolor: (theme) => (theme.palette.bgColumn.background),
-      ml: 2,
-      borderRadius: '6px',
-      height: 'fit-content',
-      maxHeight: (theme) => `calc(${theme.casani.boardContentHeight} - ${theme.spacing(5)})`
-    }}>
+    <Box
+      ref={setNodeRef}
+      style={dntKitColumnStyles}
+      {...attributes}
+      {...listeners}
+      sx={{
+        minWidth: '300px',
+        maxWidth: '300px',
+        // bgcolor: (theme) => (theme.palette.mode === 'light' ? '#F1E7D8' : '#A5917B'),
+        bgcolor: (theme) => (theme.palette.bgColumn.background),
+        ml: 2,
+        borderRadius: '6px',
+        height: 'fit-content',
+        maxHeight: (theme) => `calc(${theme.casani.boardContentHeight} - ${theme.spacing(5)})`
+      }}>
       {/* Box Column Header */}
       <Box sx={{
         height: (theme) => theme.casani.columnHeaderHeight,
@@ -68,14 +89,14 @@ function Column({ column }) {
                 cursor: 'pointer'
               }}
               id="basic-column-dropdown"
-              aria-controls={open ? 'basic-menu-columm-dropdown' : undefined}
+              aria-controls={open ? 'basic-menu-column-dropdown' : undefined}
               aria-haspopup="true"
               aria-expanded={open ? 'true' : undefined}
               onClick={handleClick}
             />
           </Tooltip>
           <Menu
-            id="basic-menu-columm-dropdown"
+            id="basic-menu-column-dropdown"
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
