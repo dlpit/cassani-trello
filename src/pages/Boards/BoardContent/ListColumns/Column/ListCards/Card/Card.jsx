@@ -22,7 +22,8 @@ function Card({ card }) {
     // Sử dụng Translate thay vì transform để kích thước column không bị thay đổi
     transform: CSS.Translate.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : undefined
+    opacity: isDragging ? 0.5 : undefined,
+    border: isDragging ? '1px solid #BABCA7' : undefined
   }
   const shouldShowCardAction = () => {
     return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
