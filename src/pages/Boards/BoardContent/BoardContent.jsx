@@ -55,10 +55,24 @@ function BoardContent({ board }) {
     setActiveDragItemType(event?.active?.data?.current?.columnId ? ACTIVE_DRAG_ITEM_TYPE.CARD : ACTIVE_DRAG_ITEM_TYPE.COLUMN)
     setActiveDragItemData(event?.active?.data.current)
   }
+
+  // Đang trong quá trình kéo phần tử là column hoặc card
+  const handleDragOver = (event) => {
+    // Không làm gì thêm nếu đang kéo column
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) return
+    
+    console.log('handleDragOver: ', event)
+
+  }
   
   // Khi bắt đầu thả 1 phần tử là column hoặc card
   const handleDragEnd = (event) => {
     // console.log('handleDragEnd: ', event)
+
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      // console.log('Chặn hành động kéo thả card')
+      return
+    }
     // Sử dụng cú pháp destructuring để lấy hai thuộc tính active và over từ đối tượng event
     const { active, over } = event
 
@@ -99,6 +113,7 @@ function BoardContent({ board }) {
     <DndContext 
       sensors={Sensor}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
       <Box sx={{
