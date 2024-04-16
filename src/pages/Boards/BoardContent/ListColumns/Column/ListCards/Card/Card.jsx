@@ -8,12 +8,33 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
 function Card({ card }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: card._id,
+    data: { ...card }
+  })
+  const dntKitCardStyles = {
+    // touchAction: 'none', // dành cho sensor default dạng PointerSensor
+    // https://github.com/clauderic/dnd-kit/issues/117
+    // Sử dụng Translate thay vì transform để kích thước column không bị thay đổi
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : undefined
+  }
   const shouldShowCardAction = () => {
     return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
   }
   return (
-    <MuiCard sx={{
+    <MuiCard
+    ref={setNodeRef}
+      style={dntKitCardStyles}
+      {...attributes}
+      {...listeners}
+
+    sx={{
       bgcolor: (theme) => (theme.palette.card),
       color: (theme) => (theme.palette.text.card),
       cursor: 'pointer',

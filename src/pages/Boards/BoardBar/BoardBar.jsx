@@ -102,19 +102,19 @@ function BoardBar({ board }) {
           <Tooltip title="quochuy">
             <Avatar
               alt="Nguyen Quoc Huy"
-              src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/426496368_777600987734389_4219797515403216014_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=OINZy8Ao6BgAb6f614c&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfC1CoOI8TCbQWQsjYBh4soIEC9cYfJTkjl-W-9Tii_ROQ&oe=6615249A"
+              src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/11/avatar-dep-89.jpg"
             />
           </Tooltip>
           <Tooltip title="quochuy">
             <Avatar
               alt="Nguyen Quoc Huy"
-              src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/434677489_811165994377888_1074703039215441925_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_ohc=I16zsw9fxdYAb418niI&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfAl8dJ6NBKqiK75qgsytNWD2ZPUuFOsYVQxZo9ZD8t3dg&oe=6615379B"
+              src="https://i.pinimg.com/474x/79/d3/1e/79d31e406fe3d3d7322b18666184911d.jpg"
             />
           </Tooltip>
           <Tooltip title="quochuy">
             <Avatar
               alt="Nguyen Quoc Huy"
-              src="https://scontent.fsgn5-14.fna.fbcdn.net/v/t39.30808-6/435170646_406828458643887_5109066831945894142_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=kgs7PBxfc5wAb4EHSOa&_nc_ht=scontent.fsgn5-14.fna&oh=00_AfAYl0tZ0t1IN3jNEjOXJoD9cf-lpnzqUHYufuK6dtugFA&oe=66152C21"
+              src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Bo-suu-tap-anh-avatar-anime-nu-co-gai-bang-do-do.jpg?1704789148675"
             />
           </Tooltip>
           <Tooltip title="quochuy">
@@ -126,7 +126,7 @@ function BoardBar({ board }) {
           <Tooltip title="quochuy">
             <Avatar
               alt="Nguyen Quoc Huy"
-              src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-6/434658451_404351368891596_3943305827844295115_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=5f2048&_nc_ohc=8sxVYElmdssAb44paRa&_nc_ht=scontent.fsgn5-9.fna&oh=00_AfCRJvAoyveR57SUcd9eiQ8KV6uACh6Za7bWZKkCa6yG8w&oe=6615118D"
+              src="https://toigingiuvedep.vn/wp-content/uploads/2022/11/avatar-dep-nu-cho-con-gai.jpg"
             />
           </Tooltip>
         </AvatarGroup>
