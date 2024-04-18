@@ -14,7 +14,7 @@ import {
 } from '@dnd-kit/core'
 import { useEffect, useState } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
-import {cloneDeep} from 'lodash'
+import { cloneDeep } from 'lodash'
 
 // import phần tử giữ chỗ cho DragOverlay
 import Column from './ListColumns/Column/Column'
@@ -147,33 +147,49 @@ function BoardContent({ board }) {
   // Khi bắt đầu thả 1 phần tử là column hoặc card
   const handleDragEnd = (event) => {
     // console.log('handleDragEnd: ', event)
-
-    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
-      // console.log('Chặn hành động kéo thả card')
-      return
-    }
     // Sử dụng cú pháp destructuring để lấy hai thuộc tính active và over từ đối tượng event
     const { active, over } = event
 
     // Nếu ko tồn tại active or over thì return để tránh lỗi
     if (!active || !over) return
 
-    if (active.id !== over.id) {
-      // Lấy vị trí cũ của active
-      const oldIndex = orderedColumnState.findIndex(c => c._id == active.id)
-      // Lấy vị trí mới của over
-      const newIndex = orderedColumnState.findIndex(c => c._id == over.id)
+    // Nếu kéo card thì chạy
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      // activeDraggingCard là card đang được kéo
+      const { id: activeDraggingCardId, data: { current: activeDraggingCardData } } = active
+      // overCard là card đang được tương tác trên hoặc dưới so với card đang được kéo (activeDraggingCard)
+      const { id: overCardId } = over
 
-      // Dùng arrayMove của dnd-Kit để sắp xếp lại mảng Col ban đầu
-      // Code của arrayMove git của dnd-Kit: dnd-Kit/packages/sortable/src/utilities/arrayMove.ts
-      const dndOrderedColumnState = arrayMove(orderedColumnState, oldIndex, newIndex)
-      // Dữ liệu dùng để gọi API
-      // const dndOrderedColumnIds = dndOrderedColumnState.map(c => c._id)
-      // console.log('dndorderedColumnState', dndOrderedColumnState)
-      // console.log('dndOrderedColumnIds', dndOrderedColumnIds)
+      // Tìm 2 cái column theo cardId
+      const activeColumn = findColumnByCardId(activeDraggingCardId)
+      const overColumn = findColumnByCardId(overCardId)
+      // console.log('activeColumn: ',activeColumn)
+      // console.log('overColumn: ',overColumn)
 
-      // Cập nhật lại state sau khi hành động
-      setorderedColumnState(dndOrderedColumnState)
+      // Tránh lỗi không tồn tại 1 trong 2 column
+      if (!activeColumn || !overColumn) return
+    }
+
+    // Nếu kéo column thì chạy
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+      console.log('Đang kéo column')
+      if (active.id !== over.id) {
+        // Lấy vị trí cũ của active
+        const oldIndex = orderedColumnState.findIndex(c => c._id == active.id)
+        // Lấy vị trí mới của over
+        const newIndex = orderedColumnState.findIndex(c => c._id == over.id)
+  
+        // Dùng arrayMove của dnd-Kit để sắp xếp lại mảng Col ban đầu
+        // Code của arrayMove git của dnd-Kit: dnd-Kit/packages/sortable/src/utilities/arrayMove.ts
+        const dndOrderedColumnState = arrayMove(orderedColumnState, oldIndex, newIndex)
+        // Dữ liệu dùng để gọi API
+        // const dndOrderedColumnIds = dndOrderedColumnState.map(c => c._id)
+        // console.log('dndorderedColumnState', dndOrderedColumnState)
+        // console.log('dndOrderedColumnIds', dndOrderedColumnIds)
+  
+        // Cập nhật lại state sau khi hành động
+        setorderedColumnState(dndOrderedColumnState)
+      }
     }
 
     setActiveDragItemId(null)
@@ -188,7 +204,7 @@ function BoardContent({ board }) {
   const styleDropAnimation = {
     sideEffects: defaultDropAnimationSideEffects({
       styles: { active: { opacity: '0.5' } } })
-  };
+  }
   
   return (
     <DndContext 
@@ -208,16 +224,16 @@ function BoardContent({ board }) {
       }}>
         <ListColumns columns={orderedColumnState}/>
         <DragOverlay dropAnimation={styleDropAnimation}>
-          
+
           {
             // Nếu giá trị activeDragItemType ban đầu là null thì không làm gì
             (!activeDragItemType) && null
           }
-          
+
           {
             // Nếu activeDragItemType là column thì sẽ render 1 column để giữ chỗ
             // và truyền dữ liệu cho Column
-            (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) && <Column column={activeDragItemData} 
+            (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) && <Column column={activeDragItemData}
           />}
           {
             (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.CARD) && <Card card={activeDragItemData} />
