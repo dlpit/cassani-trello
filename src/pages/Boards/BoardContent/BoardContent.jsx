@@ -185,15 +185,33 @@ function BoardContent({ board }) {
         // Hành động kéo card trong cùng 1 column
         
         // Lấy vị trí cũ của oldColumWhenDraggingCard
-        const oldCardIndex = orderedColumnState.findIndex(c => c._id == active.id)
-        // Lấy vị trí mới của over
-        const newCardIndex = orderedColumnState.findIndex(c => c._id == over.id)
+        const oldCardIndex = oldColumWhenDraggingCard?.cards?.findIndex(c => c._id == activeDragItemId)
+        // Lấy vị trí mới của overColumn
+        const newCardIndex = overColumn?.cards?.findIndex(c => c._id == overCardId)
+        // Dùng arrayMove tương tự như kéo thả column
+        const dndOrderedCards = arrayMove(oldColumWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
+        
+        setorderedColumnState(prevColumns => {
+          
+          // Đoạn này cài gói loDash, mục đích là clone mảng orderedColumnState cũ ra một cái mới 
+          // để xử lý data rồi return, cập nhật lại orderedColumnState mới
+          const nextColumns = cloneDeep(prevColumns)
+
+          // Tìm tới column mà chúng ta đang thả
+          const targetColumn = nextColumns.find(column => column._id === overColumn._id)
+
+          // Cập nhật lại 2 giá trị mới là card và cardOrderIds trong targetColumn
+          targetColumn.cards = dndOrderedCards
+          targetColumn.cardOrderIds = dndOrderedCards.map(card => card._id)
+
+          return nextColumns
+        })
       }
     }
 
     // Nếu kéo column thì chạy
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
-      console.log('Đang kéo column')
+      // console.log('Đang kéo column')
       if (active.id !== over.id) {
         // Lấy vị trí cũ của active
         const oldColumnIndex = orderedColumnState.findIndex(c => c._id == active.id)
