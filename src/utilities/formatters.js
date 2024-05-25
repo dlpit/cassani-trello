@@ -8,12 +8,12 @@ export const capitalizeFirstLetter = (val) => {
  * không liên quan tới BE, sẽ ẩn ở UI
  */
 export const genaratePlaceholderCard = (column) => {
-  
-  return { 
+
+  return {
     // 1 lúc chỉ có tối đa 1 card placeholder
-    _id: `${column._id}-placeholder-card`, 
+    _id: `${column._id}-placeholder-card`,
     boardId: column.boardId,
-    columnId: column._id, 
+    columnId: column._id,
     FE_PlaceholderCard: true
   }
 }
