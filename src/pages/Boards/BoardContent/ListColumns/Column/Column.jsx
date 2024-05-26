@@ -193,6 +193,7 @@ function Column({ column }) {
                 size='small'
                 variant='outlined'
                 autoFocus
+                data-no-dnd="true"
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
@@ -217,6 +218,7 @@ function Column({ column }) {
                   onClick={addNewCard}
                   variant='contained'
                   size='small'
+                  data-no-dnd="true"
                   sx={{
                     boxShadow: 'none',
                     border: '0,5px solid',
@@ -227,6 +229,7 @@ function Column({ column }) {
                 >Add</Button>
                 <CloseIcon
                   fontSize='small'
+                  data-no-dnd="true"
                   sx={{ color: '#212121', cursor: 'pointer',
                     '&:hover': { color: (theme) => (theme.palette.close.warning) }
                   }}
