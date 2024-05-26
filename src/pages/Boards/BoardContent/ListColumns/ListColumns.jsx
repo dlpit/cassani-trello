@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import Button from '@mui/material/Button'
@@ -6,8 +7,6 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
-import theme from '~/theme'
-import { add } from 'lodash'
 
 function ListColumns({ columns }) {
   const [openNewColumnForm, setopenNewColumnForm] = useState(false)
@@ -16,7 +15,7 @@ function ListColumns({ columns }) {
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const addNewColumn = () => {
     if (!newColumnTitle) {
-      // console.error('Column title is required')
+      toast.error('Column title is required')
       return
     }
     // console.log('Add new column:', newColumnTitle)

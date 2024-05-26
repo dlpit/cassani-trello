@@ -23,8 +23,7 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { Opacity } from '@mui/icons-material'
-import theme from '~/theme'
+import { toast } from 'react-toastify'
 
 
 function Column({ column }) {
@@ -61,7 +60,7 @@ function Column({ column }) {
   const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = () => {
     if (!newCardTitle) {
-      // console.error('Card title is required')
+      toast.error('Card title is required')
       return
     }
     // console.log('Add new card:', newCardTitle)
