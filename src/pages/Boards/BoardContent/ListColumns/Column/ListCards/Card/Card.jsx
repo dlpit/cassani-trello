@@ -30,21 +30,23 @@ function Card({ card }) {
   }
   return (
     <MuiCard
-    ref={setNodeRef}
+      ref={setNodeRef}
       style={dntKitCardStyles}
       {...attributes}
       {...listeners}
 
-    sx={{
-      bgcolor: (theme) => (theme.palette.card),
-      color: (theme) => (theme.palette.text.card),
-      cursor: 'pointer',
-      boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
-      overflow: 'unset',
-      display: card?.FE_PlaceholderCard ? 'none' : 'block',
-      // overflow: card?.FE_PlaceholderCard ? 'hidden' : 'unset',
-      // height: card?.FE_PlaceholderCard ? 0 : 'auto',
-    }}>
+      sx={{
+        bgcolor: (theme) => (theme.palette.card),
+        color: (theme) => (theme.palette.text.card),
+        cursor: 'pointer',
+        boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
+        overflow: 'unset',
+        display: card?.FE_PlaceholderCard ? 'none' : 'block',
+        // overflow: card?.FE_PlaceholderCard ? 'hidden' : 'unset',
+        // height: card?.FE_PlaceholderCard ? 0 : 'auto',
+        border: '1px solid #E0E0E0',
+        '&:hover': { borderColor: (theme) => (theme.palette.card.hover) }
+      }}>
       {card?.cover &&
       <CardMedia
         sx={{ height: 140, borderRadius: '4px 4px 0 0' }}
