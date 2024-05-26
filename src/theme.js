@@ -1,3 +1,4 @@
+import { BorderColor } from '@mui/icons-material'
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 const APP_BAR_HEIGHT = '56px'
@@ -22,7 +23,8 @@ const theme = extendTheme({
           primary: '#212121'
         },
         card: {
-          background: 'white'
+          background: 'white',
+          hover: '#363857'
         },
         button: {
           primary: '#212121',
@@ -35,6 +37,14 @@ const theme = extendTheme({
         menu: {
           background: '#F2E8DA', // Màu nền cho menu
           text: '#212121'
+        },
+        close: {
+          warning: '#CD9586'
+        },
+        input: {
+          color: '#111111',
+          bgColor: '#F1E7D8',
+          borderColor:'#111111'
         }
       }
     },
@@ -46,17 +56,28 @@ const theme = extendTheme({
         },
         card: {
           background: '#F2E8DA',
-          text: '#212121'
+          text: '#212121',
+          hover: '#363857'
         },
         button: {
           primary: '#212121',
           background: '#F1E7D8'
         },
         bgColumn: {
-          background: '#A5917B'
+          background: '#A5917B',
+          transparent: '#E4E4D3',
+          hold: '#111111'
         },
         menu: {
           primary: '#4C4A45'
+        },
+        close: {
+          warning: '#D16B55'
+        },
+        input: {
+          color: '#111111',
+          bgColor: '#A5917B',
+          borderColor:'#111111'
         }
       }
     }

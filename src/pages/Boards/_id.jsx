@@ -11,7 +11,7 @@ function Board() {
 
   useEffect(() => {
     // Tạm thời fix cứng Board ID, react-router-dom sẽ giúp chúng ta lấy ID từ URL
-    const boardId = '664f5cdd0d819f80fb0e0b9d'
+    const boardId = '6651788b2d70decdd157bdd9'
     // Gọi API để lấy dữ liệu Board
     fetchBoardDetailsAPI(boardId).then(board => {
       setBoard(board)
@@ -21,8 +21,8 @@ function Board() {
     <Container disableGutters maxWidth='false' sx={{ height: '100vh'}}>
       <AppBar />
       {/* Optionnal chaining */}
-      <BoardBar board={board}/>
-      <BoardContent board={board}/>
+      <BoardBar board={mockData.board}/>
+      <BoardContent board={mockData.board}/>
     </Container>
   )
 }
