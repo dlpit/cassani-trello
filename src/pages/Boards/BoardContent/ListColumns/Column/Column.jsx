@@ -26,7 +26,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
 
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -58,13 +58,20 @@ function Column({ column }) {
   const toggleNewCardForm = () => setopenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Card title is required')
       return
     }
-    // console.log('Add new card:', newCardTitle)
-    // Gọi Api để tạo mới card
+    // Tạo mới dữ liệu column
+    const newCardData = { 
+      title: newCardTitle,
+      columnId: column._id
+    }
+    /**
+     * Gọi lên props function createNewCard nằm ở component cha cao nhất (board/_id.jsx)
+     */
+    await createNewCard(newCardData)
 
     // Đóng trạng thái thêm Card mới và reset title
     toggleNewCardForm()

@@ -8,19 +8,22 @@ import CloseIcon from '@mui/icons-material/Close'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setopenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Column title is required')
       return
     }
-    // console.log('Add new column:', newColumnTitle)
-    // Gọi Api để tạo mới column
 
+    // Tạo mới dữ liệu column
+    const newColumnData = { title: newColumnTitle }
+
+
+    await createNewColumn(newColumnData)
     // Đóng trạng thái thêm Column mới và reset title
     toggleOpenNewColumnForm()
     setNewColumnTitle('')
@@ -37,7 +40,7 @@ function ListColumns({ columns }) {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         {/* Box 1 */}
-        {columns?.map(column => <Column key={column._id} column={column}/> )}
+        {columns?.map(column => <Column key={column._id} column={column} createNewCard={createNewCard}/> )}
 
         {/* Box Add new Column */}
         {!openNewColumnForm
