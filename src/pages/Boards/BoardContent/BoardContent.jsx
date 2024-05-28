@@ -31,7 +31,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 }
 
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCards }) {
+function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCards, moveCardtoDifferentColumn }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // PointerSensor là mặc định thì phải có thuộc tính CSS touch-action: 'none': ở phần tử được kéo thả nhưng gặp bug
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -75,7 +75,8 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setorderedColumnState(prevColumns => {
       // Tìm vị trí (index) của overCard trong column đích (nơi mà Card sắp được thả)
@@ -132,6 +133,11 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         // Cập nhật lại mảng cardOrderIds trong dữ liệu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
       }
+
+      if (triggerFrom === 'handleDragEnd') {
+        // Gọi hàm moveCardtoDifferentColumn nằm ở component cha cao nhất (board/_id.jsx)
+        moveCardtoDifferentColumn(activeDraggingCardId, oldColumWhenDraggingCard._id, nextOverColumn._id, nextColumns)
+      }
       return nextColumns
     })
   }
@@ -187,7 +193,8 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -229,7 +236,8 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         // Hành động kéo card trong cùng 1 column
