@@ -13,7 +13,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
   const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumn = async () => {
+  const addNewColumn = () => {
     if (!newColumnTitle) {
       toast.error('Column title is required')
       return
@@ -23,7 +23,7 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
     const newColumnData = { title: newColumnTitle }
 
 
-    await createNewColumn(newColumnData)
+    createNewColumn(newColumnData)
     // Đóng trạng thái thêm Column mới và reset title
     toggleOpenNewColumnForm()
     setNewColumnTitle('')
