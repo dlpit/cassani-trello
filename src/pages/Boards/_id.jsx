@@ -4,7 +4,7 @@ import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 // import { mockData } from '~/apis/mock-data'
 import { useEffect, useState } from 'react'
-import { fetchBoardDetailsAPI, createNewColumnAPI, createNewCardAPI } from '~/apis'
+import { fetchBoardDetailsAPI, createNewColumnAPI, createNewCardAPI, updateBoardDetailsAPI } from '~/apis'
 import { genaratePlaceholderCard } from '~/utilities/formatters'
 import { isEmpty } from 'lodash'
 
@@ -64,6 +64,21 @@ function Board() {
     }
     setBoard(newBoard)
   }
+
+  // Hàm gọi API để di chuyển Column và làm mới dữ liệu State Board
+  const moveColumns = async (dndOrderedColumnState) => {
+    // Cập nhật dữ liệu State Board
+    const dndOrderedColumnIds = dndOrderedColumnState.map(c => c._id)
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumnState
+    newBoard.columnOrderIds = dndOrderedColumnIds
+    setBoard(newBoard)
+
+    // Gọi API để cập nhật dữ liệu Column
+    await updateBoardDetailsAPI(newBoard._id, {
+      columnOrderIds: dndOrderedColumnIds
+    })
+  }
   return (
     <Container disableGutters maxWidth='false' sx={{ height: '100vh'}}>
       <AppBar />
@@ -72,6 +87,7 @@ function Board() {
       <BoardContent
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
+        moveColumns={moveColumns}
         board={board}/>
     </Container>
   )
