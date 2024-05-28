@@ -33,6 +33,13 @@ export const updateColumnDetailsAPI = async (columnId, updateData) => {
   return response.data
 }
 
+export const deleteColumnDetailsAPI = async (columnId) => {
+  const response = await axios.delete(`${API_ROOT}/v1/columns/${columnId}`)
+  // Lưu ý: axios sẽ trả về một object có cấu trúc { data, status, statusText, headers, config, request }
+  return response.data
+}
+
+
 /** Cards */
 export const createNewCardAPI = async (newCardData) => {
   const response = await axios.post(`${API_ROOT}/v1/cards`, newCardData)

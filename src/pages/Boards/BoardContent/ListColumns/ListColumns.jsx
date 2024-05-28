@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 
-function ListColumns({ columns, createNewColumn, createNewCard }) {
+function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
   const [openNewColumnForm, setopenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
 
@@ -40,7 +40,12 @@ function ListColumns({ columns, createNewColumn, createNewCard }) {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         {/* Box 1 */}
-        {columns?.map(column => <Column key={column._id} column={column} createNewCard={createNewCard}/> )}
+        {columns?.map(column => <Column
+          key={column._id}
+          column={column}
+          createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
+        /> )}
 
         {/* Box Add new Column */}
         {!openNewColumnForm

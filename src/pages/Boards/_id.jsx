@@ -13,11 +13,13 @@ import {
   createNewCardAPI,
   updateBoardDetailsAPI,
   updateColumnDetailsAPI,
-  moveCardtoDifferentColumnAPI
+  moveCardtoDifferentColumnAPI,
+  deleteColumnDetailsAPI
 } from '~/apis'
 import { genaratePlaceholderCard } from '~/utilities/formatters'
 import { isEmpty } from 'lodash'
 import { Typography } from '@mui/material'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -148,19 +150,36 @@ function Board() {
     })
   }
 
+  // Xử lý xóa column
+  const deleteColumnDetails = (columnId) => {
+    // Cập nhật dữ liệu State Board
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(column => column._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId)
+    setBoard(newBoard)
+
+    // Gọi API để xoá column
+    deleteColumnDetailsAPI(columnId).then(res => {
+      toast.success(res?.deleteResult)
+    })
+  }
+
   if (!board) {
     return (
-      <Box sx = {{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        height: '100vh',
-        width: '100vw',
-        gap: 2
-      }}>
+      <Box
+
+        sx = {{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          height: '100vh',
+          width: '100vw',
+          gap: 2,
+          backgroundColor: '#e8e8e8'
+        }}>
         <CustomLoading />
-        <Typography variant='h6'>Loading Board ...</Typography>
+        <Typography variant='h6' sx ={{ userSelect: 'none' }}>Loading Board ...</Typography>
       </Box>
     )
   }
@@ -172,11 +191,13 @@ function Board() {
       <BoardBar board={board}/>
       <BoardContent
         board={board}
+
         createNewColumn={createNewColumn}
         createNewCard={createNewCard}
         moveColumns={moveColumns}
         moveCards={moveCards}
         moveCardtoDifferentColumn={moveCardtoDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   )
