@@ -40,8 +40,8 @@ function AppBar() {
         <AppsIcon sx={{ color: '#F2F2F2BF' }} />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <SvgIcon component={ casaniLogo } inheritViewBox />
-          <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold', color:'#0095FF' }}
-          >Cassani</Typography>
+          <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold', color: (theme) => (theme.palette.mode === 'light' ? '#FFFFFF' : '#F1E7D8') }}
+          >assani</Typography>
         </Box>
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <WorkSpaces />
