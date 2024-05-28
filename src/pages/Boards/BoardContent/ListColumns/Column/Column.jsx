@@ -17,7 +17,6 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utilities/sorts'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 
@@ -52,13 +51,14 @@ function Column({ column, createNewCard }) {
     setAnchorEl(null)
   }
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  // Card đã được sắp xếp ở component cha cao nhất (board/_id.jsx)
+  const orderedCards = column.cards
 
   const [openNewCardForm, setopenNewCardForm] = useState(false)
   const toggleNewCardForm = () => setopenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = async () => {
+  const addNewCard = () => {
     if (!newCardTitle) {
       toast.error('Card title is required')
       return
@@ -71,7 +71,7 @@ function Column({ column, createNewCard }) {
     /**
      * Gọi lên props function createNewCard nằm ở component cha cao nhất (board/_id.jsx)
      */
-    await createNewCard(newCardData)
+    createNewCard(newCardData)
 
     // Đóng trạng thái thêm Card mới và reset title
     toggleNewCardForm()
