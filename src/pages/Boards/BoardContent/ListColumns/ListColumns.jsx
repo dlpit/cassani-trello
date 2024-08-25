@@ -7,13 +7,21 @@ import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
+import { createNewColumnAPI } from '~/apis'
+import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { genaratePlaceholderCard } from '~/utilities/formatters'
+import { useDispatch, useSelector } from 'react-redux'
+import { cloneDeep } from 'lodash'
 
-function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDetails }) {
+function ListColumns({ columns }) {
   const [openNewColumnForm, setopenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setopenNewColumnForm(!openNewColumnForm)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumn = () => {
+  const board = useSelector(selectCurrentActiveBoard)
+  const dispatch = useDispatch()
+
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Column title is required')
       return
@@ -22,12 +30,32 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
     // Tạo mới dữ liệu column
     const newColumnData = { title: newColumnTitle }
 
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
 
-    createNewColumn(newColumnData)
+    // Khi tạo mới Column, cần thêm một card placeholder vào column đó
+    createdColumn.cards = [genaratePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [genaratePlaceholderCard(createdColumn)._id]
+
+    /**
+     * Câp nhật dữ liệu State Board
+     * FE tự quản lý dữ liệu state data, không cần gọi lại API fetchBoardDetailsAPI để lấy dữ liệu mới
+     */
+    // const newBoard = { ...board }
+    const newBoard = cloneDeep(board)
+
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+    // setBoard(newBoard)
+    dispatch(updateCurrentActiveBoard(newBoard))
+
     // Đóng trạng thái thêm Column mới và reset title
     toggleOpenNewColumnForm()
     setNewColumnTitle('')
   }
+
   return (
     <SortableContext items={columns?.map(c => c._id)} strategy={horizontalListSortingStrategy}>
       <Box sx={{
@@ -43,8 +71,6 @@ function ListColumns({ columns, createNewColumn, createNewCard, deleteColumnDeta
         {columns?.map(column => <Column
           key={column._id}
           column={column}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
         /> )}
 
         {/* Box Add new Column */}

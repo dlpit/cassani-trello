@@ -31,7 +31,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 }
 
 
-function BoardContent({ board, createNewColumn, createNewCard, moveColumns, moveCards, moveCardtoDifferentColumn, deleteColumnDetails }) {
+function BoardContent({ board, moveColumns, moveCards, moveCardtoDifferentColumn }) {
   // https://docs.dndkit.com/api-documentation/sensors
   // PointerSensor là mặc định thì phải có thuộc tính CSS touch-action: 'none': ở phần tử được kéo thả nhưng gặp bug
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -373,12 +373,7 @@ function BoardContent({ board, createNewColumn, createNewCard, moveColumns, move
         height: (theme) => theme.casani.boardContentHeight,
         p: '10px 0'
       }}>
-        <ListColumns
-          columns={orderedColumnState}
-          createNewColumn={createNewColumn}
-          createNewCard={createNewCard}
-          deleteColumnDetails={deleteColumnDetails}
-        />
+        <ListColumns columns={ orderedColumnState } />
         <DragOverlay dropAnimation={styleDropAnimation}>
 
           {

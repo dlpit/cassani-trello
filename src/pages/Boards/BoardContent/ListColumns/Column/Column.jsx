@@ -1,8 +1,5 @@
 import AddCardIcon from '@mui/icons-material/AddCard'
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import ContentCut from '@mui/icons-material/ContentCut'
-import ContentPaste from '@mui/icons-material/ContentPaste'
+import CloseIcon from '@mui/icons-material/Close'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -13,20 +10,23 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import { useState } from 'react'
 import ListCards from './ListCards/ListCards'
-import TextField from '@mui/material/TextField'
-import CloseIcon from '@mui/icons-material/Close'
 
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { toast } from 'react-toastify'
 import { useConfirm } from 'material-ui-confirm'
+import { toast } from 'react-toastify'
 
+import { cloneDeep } from 'lodash'
+import { useDispatch, useSelector } from 'react-redux'
+import { createNewCardAPI, deleteColumnDetailsAPI } from '~/apis'
+import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 
-function Column({ column, createNewCard, deleteColumnDetails }) {
+function Column({ column }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -59,20 +59,42 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
   const toggleNewCardForm = () => setopenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+
+  const board = useSelector(selectCurrentActiveBoard)
+  const dispatch = useDispatch()
+
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Card title is required')
       return
     }
+
     // Tạo mới dữ liệu column
-    const newCardData = { 
+    const newCardData = {
       title: newCardTitle,
       columnId: column._id
     }
-    /**
-     * Gọi lên props function createNewCard nằm ở component cha cao nhất (board/_id.jsx)
-     */
-    createNewCard(newCardData)
+
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+
+    // Cập nhật dữ liệu State Board
+    const newBoard = cloneDeep(board)
+    const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    if (columnToUpdate) {
+      // Nếu column rỗng (chỉ chứa placeholder-card) thì xoá placeholder-card đi
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        // Ngược lại Column đã có card thì thêm card mới vào cuối mảng
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
+    }
+    dispatch(updateCurrentActiveBoard(newBoard))
 
     // Đóng trạng thái thêm Card mới và reset title
     toggleNewCardForm()
@@ -93,7 +115,16 @@ function Column({ column, createNewCard, deleteColumnDetails }) {
       // confirmationButtonProps: { color: 'error', variant: 'outlined' },
       // cancellationButtonProps: { color: 'inherit', variant: 'outlined' }
     }).then(() => {
-      deleteColumnDetails(column._id)
+      // Cập nhật dữ liệu State Board
+      const newBoard = cloneDeep(board)
+      newBoard.columns = newBoard.columns.filter(column => column._id !== column._id)
+      newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== column._id)
+      dispatch(updateCurrentActiveBoard(newBoard))
+
+      // Gọi API để xoá column
+      deleteColumnDetailsAPI(column._id).then(res => {
+        toast.success(res?.deleteResult)
+      })
     }).catch(() => {})
   }
   return (
