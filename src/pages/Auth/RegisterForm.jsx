@@ -1,4 +1,3 @@
-// TrungQuanDev: https://youtube.com/@trungquandev
 import { Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -10,11 +9,31 @@ import { ReactComponent as TrelloIcon } from '~/assets/casani.svg'
 import CardActions from '@mui/material/CardActions'
 import TextField from '@mui/material/TextField'
 import Zoom from '@mui/material/Zoom'
+import { useForm } from 'react-hook-form'
+import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
+import {
+  FIELD_REQUIRED_MESSAGE,
+  EMAIL_RULE,
+  EMAIL_RULE_MESSAGE,
+  PASSWORD_RULE,
+  PASSWORD_RULE_MESSAGE,
+  PASSWORD_CONFIRMATION_MESSAGE
+} from '~/utilities/validators'
 
 function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors }
+  } = useForm()
+
+  const submitRegister = (data) => {
+    console.log(data)
+  }
+
   return (
-    // <form onSubmit={handleSubmit(submitRegister)}>
-    <form>
+    <form onSubmit={handleSubmit(submitRegister)}>
       <Zoom in={true} style={{ transitionDelay: '200ms' }}>
         <MuiCard sx={{ minWidth: 380, maxWidth: 380, marginTop: '6em' }}>
           <Box sx={{
@@ -27,7 +46,7 @@ function RegisterForm() {
             <Avatar ><TrelloIcon /></Avatar>
           </Box>
           <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
-            Author: TrungQuanDev
+            Author: DlPIT
           </Box>
           <Box sx={{ padding: '0 1em 1em 1em' }}>
             <Box sx={{ marginTop: '1em' }}>
@@ -37,7 +56,16 @@ function RegisterForm() {
                 label="Enter Email..."
                 type="text"
                 variant="outlined"
+                error={!!errors['email']}
+                {...register('email', {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: EMAIL_RULE,
+                    message: EMAIL_RULE_MESSAGE
+                  }
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={'email'} />
             </Box>
             <Box sx={{ marginTop: '1em' }}>
               <TextField
@@ -45,7 +73,16 @@ function RegisterForm() {
                 label="Enter Password..."
                 type="password"
                 variant="outlined"
+                error={!!errors['password']}
+                {...register('password', {
+                  required: FIELD_REQUIRED_MESSAGE,
+                  pattern: {
+                    value: PASSWORD_RULE,
+                    message: PASSWORD_RULE_MESSAGE
+                  }
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={'password'} />
             </Box>
             <Box sx={{ marginTop: '1em' }}>
               <TextField
@@ -53,7 +90,15 @@ function RegisterForm() {
                 label="Enter Password Confirmation..."
                 type="password"
                 variant="outlined"
+                error={!!errors['password_confirmation']}
+                {...register('password_confirmation', {
+                  validate: (value) => {
+                    if (value === watch('password')) return true
+                    return PASSWORD_CONFIRMATION_MESSAGE
+                  }
+                })}
               />
+              <FieldErrorAlert errors={errors} fieldName={'password_confirmation'} />
             </Box>
           </Box>
           <CardActions sx={{ padding: '0 1em 1em 1em' }}>
