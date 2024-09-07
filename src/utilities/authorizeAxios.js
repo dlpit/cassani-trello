@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { interceptorLoadingElements } from '~/utilities/formatters'
 
 // Khởi tạo một đối tượng Axios (authorizeAxiosInstance) mục đích để custom và cấu hình chung cho dự án
 let authorizeAxiosInstance = axios.create()
@@ -17,6 +18,9 @@ authorizeAxiosInstance.defaults.withCredentials = true
 // Add a request interceptor: Can thiệp vào giữa mỗi request trước khi nó được gửi đi
 authorizeAxiosInstance.interceptors.request.use((config) => {
   // Do something before request is sent
+
+  // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
+  interceptorLoadingElements(true)
   return config
 }, function (error) {
   // Do something with request error
@@ -26,9 +30,16 @@ authorizeAxiosInstance.interceptors.request.use((config) => {
 // Add a response interceptor: can thiệp vào giữa mỗi response trước khi nó được trả về cho phía client
 authorizeAxiosInstance.interceptors.response.use((response) => {
   // Mã http status code từ 200 đến 299 sẽ được xử lý ở đây
+
+  // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
+  interceptorLoadingElements(false)
   return response
 }, (error) => {
   // Mã http status code nằm ngoài khoảng từ 200 đến 299 sẽ được xử lý ở đây
+
+  // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
+  interceptorLoadingElements(false)
+
   // Xử lý tập trung phần hiển thị thông báo lỗi trả về từ mọi API ở đây
   console.log(error)
   let errorMessage = error.message
