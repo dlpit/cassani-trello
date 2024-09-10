@@ -3,8 +3,6 @@ import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 // import { mockData } from '~/apis/mock-data'
-import { Typography } from '@mui/material'
-import Box from '@mui/material/Box'
 import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -13,13 +11,13 @@ import {
   updateBoardDetailsAPI,
   updateColumnDetailsAPI
 } from '~/apis'
-import CustomLoading from '~/assets/CustomLoading' // Import CustomLoading
 import {
   fetchBoardDetailsAPI,
   selectCurrentActiveBoard,
   updateCurrentActiveBoard
 } from '~/redux/activeBoard/activeBoardSlice'
 import { useParams } from 'react-router-dom'
+import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 
 function Board() {
   // Không dùng State của component nữa mà dùng State của Redux
@@ -96,23 +94,7 @@ function Board() {
   }
 
   if (!board) {
-    return (
-      <Box
-
-        sx = {{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          height: '100vh',
-          width: '100vw',
-          gap: 2,
-          backgroundColor: '#e8e8e8'
-        }}>
-        <CustomLoading />
-        <Typography variant='h6' sx ={{ userSelect: 'none' }}>Loading Board ...</Typography>
-      </Box>
-    )
+    return <PageLoadingSpinner caption="Loading Board..." />
   }
 
   return (
