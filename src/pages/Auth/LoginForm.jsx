@@ -39,7 +39,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(submitLogin)}>
       <Zoom in={true} style={{ transitionDelay: '200ms' }}>
-        <MuiCard sx={{ minWidth: 380, maxWidth: 380, marginTop: '6em' }}>
+        <MuiCard sx={{ minWidth: 500, maxWidth: 400, marginTop: '6em' }}>
           <Box sx={{
             margin: '1em',
             display: 'flex',

@@ -40,7 +40,6 @@ export const deleteColumnDetailsAPI = async (columnId) => {
   return response.data
 }
 
-
 /** Cards */
 export const createNewCardAPI = async (newCardData) => {
   const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/cards`, newCardData)
@@ -49,13 +48,13 @@ export const createNewCardAPI = async (newCardData) => {
 
 /** User */
 export const registerUserAPI = async (data) => {
-  const respone = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/register`, data)
+  const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/register`, data)
   toast.success('Register successfully! Please check your email to verify your account.')
-  return respone.data
+  return response.data
 }
 
 export const verifyUserAPI = async (data) => {
-  const respone = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/verify`, data)
+  const response = await authorizeAxiosInstance.put(`${API_ROOT}/v1/users/verify`, data)
   toast.success('Verify successfully! Please login to your account.')
-  return respone.data
+  return response.data
 }
