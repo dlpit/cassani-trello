@@ -12,14 +12,17 @@ import Zoom from '@mui/material/Zoom'
 import Alert from '@mui/material/Alert'
 import { useForm } from 'react-hook-form'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
-import {
+import { 
   FIELD_REQUIRED_MESSAGE,
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
   PASSWORD_RULE,
   PASSWORD_RULE_MESSAGE
 } from '~/utilities/validators'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
+import { loginUserAPI } from '~/redux/user/userSlice'
+import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 
 function LoginForm() {
   const {
@@ -32,8 +35,18 @@ function LoginForm() {
   const registeredEmail = searchParams.get('registeredEmail')
   const verifiedEmail = searchParams.get('verifiedEmail')
 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const submitLogin = (data) => {
-    console.log(data)
+    const { email, password } = data
+    toast.promise(
+      dispatch(loginUserAPI({ email, password })),
+      { pending: 'Logging in...' }
+    ).then(res => {
+      // Phải kiểm tra xem res.error có tồn tại hay không, nếu không tồn tại thì mới chuyển hướng trang
+      if (!res.error) navigate('/')
+    })
   }
 
   return (

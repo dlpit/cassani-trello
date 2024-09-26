@@ -41,7 +41,6 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
   interceptorLoadingElements(false)
 
   // Xử lý tập trung phần hiển thị thông báo lỗi trả về từ mọi API ở đây
-  console.log(error)
   let errorMessage = error.message
   if (error.response?.data?.message) {
     errorMessage = error.response.data.message
