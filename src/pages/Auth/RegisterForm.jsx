@@ -51,7 +51,7 @@ function RegisterForm() {
             justifyContent: 'center',
             gap: 1
           }}>
-            <Avatar sx={{ bgcolor: 'primary.main' }}><LockIcon /></Avatar>
+            <Avatar sx={{ bgcolor: 'primary.main' }}> <LockIcon /></Avatar>
             <Avatar ><TrelloIcon /></Avatar>
           </Box>
           <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
