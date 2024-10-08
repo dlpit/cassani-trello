@@ -27,7 +27,7 @@ export const userSlice = createSlice({
   // ExtraReducers: Nới xử lý dữ liệu bất đồng bộ
   extraReducers: (builder) => {
     builder.addCase(loginUserAPI.fulfilled, (state, action) => {
-// action.payload là chuẩn đặt tên khi nhận dữ liệu reducer, chúng ta sẽ gán nó ra một biến có nghĩa hơn, action.payload ở đây chính là response.data từ CreateAsyncThunk
+    // action.payload là chuẩn đặt tên khi nhận dữ liệu reducer, chúng ta sẽ gán nó ra một biến có nghĩa hơn, action.payload ở đây chính là response.data từ CreateAsyncThunk
       const user = action.payload
       state.currentUser = user
     })
