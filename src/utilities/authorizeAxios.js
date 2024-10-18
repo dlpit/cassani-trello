@@ -1,7 +1,13 @@
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { interceptorLoadingElements } from '~/utilities/formatters'
+import { refreshTokenAPI } from '~/apis'
+import { logoutUserAPI } from '~/redux/user/userSlice'
 
+let axiosReduxStore
+export const injectStore = mainStore => {
+  axiosReduxStore = mainStore
+}
 // Khởi tạo một đối tượng Axios (authorizeAxiosInstance) mục đích để custom và cấu hình chung cho dự án
 let authorizeAxiosInstance = axios.create()
 
@@ -27,6 +33,7 @@ authorizeAxiosInstance.interceptors.request.use((config) => {
   return Promise.reject(error)
 })
 
+let refreshTokenPromise = null
 // Add a response interceptor: can thiệp vào giữa mỗi response trước khi nó được trả về cho phía client
 authorizeAxiosInstance.interceptors.response.use((response) => {
   // Mã http status code từ 200 đến 299 sẽ được xử lý ở đây
@@ -39,6 +46,34 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
 
   // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
   interceptorLoadingElements(false)
+
+  if (error.response?.status === 401) {
+    // Gọi API đăng xuất
+    axiosReduxStore.dispatch(logoutUserAPI(false))
+  }
+
+  // Nếu mã lỗi trả về từ API là 410 - GONE thì tự động refresh token và thử lại request
+  const originalRequest = error.config
+  if (error.response?.status === 410 && originalRequest) {
+    if (!refreshTokenPromise) {
+      refreshTokenPromise = refreshTokenAPI()
+        .then(data => {
+          // Trường hợp nếu cần lưu access token vào localStorage thì thực hiện ở đây
+          return data?.accessToken
+        })
+        .catch(_error => {
+          // Nếu refresh token thất bại thì đăng xuất user
+          axiosReduxStore.dispatch(logoutUserAPI(false))
+          return Promise.reject(_error)
+        })
+        .finally(() => {
+          refreshTokenPromise = null
+        })
+    }
+    return refreshTokenPromise.then(() => {
+      return authorizeAxiosInstance(originalRequest)
+    })
+  }
 
   // Xử lý tập trung phần hiển thị thông báo lỗi trả về từ mọi API ở đây
   let errorMessage = error.message

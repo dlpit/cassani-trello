@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authorizeAxiosInstance from '~/utilities/authorizeAxios'
 import { API_ROOT } from '~/utilities/constants'
+import { toast } from 'react-toastify'
 
 // Các hành động gọi api (bất đồng bộ) và cập nhật dữ liệu vào Redux, dùng Middleware createAsyncThunk đi kèm với extraReducers
 // https://redux-toolkit.js.org/api/createAsyncThunk
@@ -9,6 +10,17 @@ export const loginUserAPI = createAsyncThunk(
   async (data) => {
     const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/login`, data)
     // Lưu ý: axios sẽ trả về một object có cấu trúc { data, status, statusText, headers, config, request }
+    return response.data
+  }
+)
+
+export const logoutUserAPI = createAsyncThunk(
+  'user/logoutUserAPI',
+  async (showSuccessMessage = true) => {
+    const response = await authorizeAxiosInstance.delete(`${API_ROOT}/v1/users/logout`)
+    if (showSuccessMessage) {
+      toast.success('Logout successfully!')
+    }
     return response.data
   }
 )
@@ -30,6 +42,10 @@ export const userSlice = createSlice({
     // action.payload là chuẩn đặt tên khi nhận dữ liệu reducer, chúng ta sẽ gán nó ra một biến có nghĩa hơn, action.payload ở đây chính là response.data từ CreateAsyncThunk
       const user = action.payload
       state.currentUser = user
+    })
+    builder.addCase(logoutUserAPI.fulfilled, (state) => {
+      // Update lại dữ liệu của currentUser
+      state.currentUser = null
     })
   }
 })
