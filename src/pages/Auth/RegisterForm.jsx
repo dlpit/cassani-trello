@@ -19,7 +19,7 @@ import {
   PASSWORD_RULE_MESSAGE,
   PASSWORD_CONFIRMATION_MESSAGE
 } from '~/utilities/validators'
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify' 
 import { registerUserAPI } from '~/apis'
 
 function RegisterForm() {
