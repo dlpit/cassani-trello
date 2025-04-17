@@ -12,10 +12,22 @@ export default defineConfig({
     react(),
     svgr()
   ],
-  base: '/', // Uncomment and set to root path for Vercel deployment Uncomment and set to root path for Vercel deployment
+  base: '/', // This is important for absolute asset paths
   resolve: {
     alias: [
       { find: '~', replacement: '/src' }
     ]
+  },
+  build: {
+    // Ensure assets are referenced with absolute paths
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        // Force assets to use absolute paths
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]'
+      }
+    }
   }
 })
