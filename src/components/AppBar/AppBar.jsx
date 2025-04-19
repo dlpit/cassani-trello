@@ -20,6 +20,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import InputAdornment from '@mui/material/InputAdornment'
 import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
+import { Link } from 'react-router-dom'
 
 function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -38,11 +39,13 @@ function AppBar() {
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <AppsIcon sx={{ color: '#F2F2F2BF' }} />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <SvgIcon component={ casaniLogo } inheritViewBox />
-          <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold', color: (theme) => (theme.palette.mode === 'light' ? '#FFFFFF' : '#F1E7D8') }}
-          >assani</Typography>
-        </Box>
+        <Link to="/" style={{ color: 'inherit' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            <SvgIcon component={ casaniLogo } inheritViewBox />
+            <Typography variant='span' sx={{ fontSize: '1.2rem', fontWeight:'Bold', color: (theme) => (theme.palette.mode === 'light' ? '#FFFFFF' : '#F1E7D8') }}
+            >assani</Typography>
+          </Box>
+        </Link>
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <WorkSpaces />
           <Recent />
