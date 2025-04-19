@@ -4,6 +4,7 @@ import App from '~/App.jsx'
 import CssBaseline from '@mui/material/CssBaseline'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import theme from '~/theme.js'
+import GlobalStyles from '@mui/material/GlobalStyles'
 
 // Cấu hình react-toastify
 import { ToastContainer } from 'react-toastify'
@@ -37,6 +38,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             confirmationButtonProps: { color: 'error', variant: 'outlined' },
             cancellationButtonProps: { color: 'inherit', variant: 'outlined' }
           }}>
+            <GlobalStyles styles={{ a: { textDecoration: 'none' } }} />
             <CssBaseline />
             <App />
             <ToastContainer position="top-center" limit={3} newestOnTop={true}/>
