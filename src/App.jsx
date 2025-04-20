@@ -1,4 +1,4 @@
-import Board from './pages/Boards/_id'
+import Board from '~/pages/Boards/_id'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import NotFound from '~/pages/404/NotFound'
 import Auth from '~/pages/Auth/Auth'
@@ -6,6 +6,7 @@ import AccountVerification from '~/pages/Auth/AccountVerification'
 import { useSelector } from 'react-redux'
 import { selectCurrentUser } from '~/redux/user/userSlice'
 import Settings from '~/pages/Settings/Settings'
+import Boards from '~/pages/Boards'
 
 const ProtectedRoute = ({ user }) => {
   if (!user) return <Navigate to='/login' replace={true}/>
@@ -22,12 +23,15 @@ function App() {
 
   return (
     <Routes>
-      <Route path='/' element={<Navigate to='/boards/66d94fce8e379f2c0603d1f7' replace={true}/>}/>
+      <Route path='/' element={<Navigate to='/boards' replace={true}/>}/>
 
       {/* Những rouer chỉ cho truy cập sau khi đã login */}
       <Route element={<ProtectedRoute user={currentUser} />}>
         {/** Board Details */}
         <Route path='/boards/:boardId' element={<Board />}/>
+
+        {/** Board List */}
+        <Route path='/boards' element={<Boards />}/>
 
         {/** User Profile Settings */}
         <Route path='/settings/account' element={<Settings />}/>
