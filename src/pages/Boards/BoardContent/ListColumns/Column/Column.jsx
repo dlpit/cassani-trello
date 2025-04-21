@@ -25,6 +25,8 @@ import { cloneDeep } from 'lodash'
 import { useDispatch, useSelector } from 'react-redux'
 import { createNewCardAPI, deleteColumnDetailsAPI } from '~/apis'
 import { selectCurrentActiveBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
+import { updateColumnDetailsAPI } from '~/apis'
 
 function Column({ column }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -109,16 +111,12 @@ function Column({ column }) {
       description: 'This action will permanently delete this column and tag, you cannot undo it, please confirm if you want to do it!!',
       confirmationText: 'Delete',
       cancellationText: 'Cancel'
-      // content: 'test content',
-
-      // allowClose: false,
-      // confirmationButtonProps: { color: 'error', variant: 'outlined' },
-      // cancellationButtonProps: { color: 'inherit', variant: 'outlined' }
     }).then(() => {
       // Cập nhật dữ liệu State Board
       const newBoard = cloneDeep(board)
-      newBoard.columns = newBoard.columns.filter(column => column._id !== column._id)
-      newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== column._id)
+      newBoard.columns = newBoard.columns.filter(c => c._id !== column._id)
+      newBoard.columnOrderIds = newBoard.columnOrderIds.filter(c => c !== column._id)
+
       dispatch(updateCurrentActiveBoard(newBoard))
 
       // Gọi API để xoá column
@@ -127,6 +125,19 @@ function Column({ column }) {
       })
     }).catch(() => {})
   }
+
+  const onUpdateColumnTitle = (newTitle) => {
+    updateColumnDetailsAPI(column._id, { title: newTitle }).then(() => {
+      // Cập nhật dữ liệu State Board
+      const newBoard = cloneDeep(board)
+      const columnToUpdate = newBoard.columns.find(column => column._id === column._id)
+      if (columnToUpdate) {
+        columnToUpdate.title = newTitle
+      }
+      dispatch(updateCurrentActiveBoard(newBoard))
+    })
+  }
+
   return (
     // Bọc div để fix chiều cao của column khi kéo thả
     <div
@@ -154,7 +165,12 @@ function Column({ column }) {
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <Typography variant="h6" sx={{
+          <ToggleFocusInput
+            value={column?.title}
+            onChangedValue={onUpdateColumnTitle}
+            data-no-dnd="true"
+          />
+          {/* <Typography variant="h6" sx={{
             fontSize: '1rem',
             fontWeight: 'bold',
             color: '#111111',
@@ -162,7 +178,7 @@ function Column({ column }) {
           }}
           >
             {column?.title}
-          </Typography>
+          </Typography> */}
           <Box>
             <Tooltip title='More option'>
               <ExpandMoreIcon
