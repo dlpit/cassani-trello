@@ -17,12 +17,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectCurrentUser, updateUserAPI } from '~/redux/user/userSlice'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import VisuallyHiddenInput from '~/components/Form/VisuallyHiddenInput'
 
 // Xử lý custom đẹp cái input file ở đây: https://mui.com/material-ui/react-button/#file-upload
 // Ngoài ra note thêm lib này từ docs của MUI nó recommend nếu cần dùng: https://github.com/viclafouch/mui-file-input
-const VisuallyHiddenInput = styled('input')({
-  display: 'none'
-})
+
 
 function AccountTab() {
   const currentUser = useSelector(selectCurrentUser)
@@ -46,13 +45,13 @@ function AccountTab() {
 
     // Gọi API...
     toast.promise(
-        dispatch(updateUserAPI({ displayName })),
-        { pending: 'Updating...' }
-      ).then(res => {
-        if (!res.error) {
-          toast.success('Update successfully!')
-        }
-      })
+      dispatch(updateUserAPI({ displayName })),
+      { pending: 'Updating...' }
+    ).then(res => {
+      if (!res.error) {
+        toast.success('Update successfully!')
+      }
+    })
   }
 
   const uploadAvatar = (e) => {
@@ -70,7 +69,7 @@ function AccountTab() {
     // Cách để log được dữ liệu thông qua FormData
     // console.log('reqData: ', reqData)
     // for (const value of reqData.values()) {
-      // console.log('reqData Value: ', value)
+    // console.log('reqData Value: ', value)
     // }
 
     // Gọi API...

@@ -18,7 +18,7 @@ import {
 } from '~/redux/activeBoard/activeBoardSlice'
 import { useParams } from 'react-router-dom'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
-
+import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard'
 function Board() {
   // Không dùng State của component nữa mà dùng State của Redux
   // const [board, setBoard] = useState(null)
@@ -99,6 +99,8 @@ function Board() {
 
   return (
     <Container disableGutters maxWidth='false' sx={{ height: '100vh' }}>
+      <ActiveCard />
+
       <AppBar />
       {/* Optionnal chaining */}
       <BoardBar board={board}/>

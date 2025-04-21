@@ -5,12 +5,11 @@ import VpnLockIcon from '@mui/icons-material/VpnLock'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import SpeedIcon from '@mui/icons-material/Speed'
 import FilterListIcon from '@mui/icons-material/FilterList'
-import Avatar from '@mui/material/Avatar'
-import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utilities/formatters'
+import BoardUserGroup from './BoardUserGroup'
 
 const CUSTOM_STYLE = {
   color: '#F2F2F2',
@@ -88,50 +87,8 @@ function BoardBar({ board }) {
         >
           Invite
         </Button>
-        <AvatarGroup
-          max={4}
-          sx={{
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              fontSize: 16,
-              color: '#F2F2F2',
-              cursor: 'pointer',
-              '&: first-of-type': { bgcolor: '#A5917B' }
-            }
-          }}
-        >
-          <Tooltip title="quochuy">
-            <Avatar
-              alt="Nguyen Quoc Huy"
-              src="https://cdn.sforum.vn/sforum/wp-content/uploads/2023/11/avatar-dep-89.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="quochuy">
-            <Avatar
-              alt="Nguyen Quoc Huy"
-              src="https://i.pinimg.com/474x/79/d3/1e/79d31e406fe3d3d7322b18666184911d.jpg"
-            />
-          </Tooltip>
-          <Tooltip title="quochuy">
-            <Avatar
-              alt="Nguyen Quoc Huy"
-              src="https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Bo-suu-tap-anh-avatar-anime-nu-co-gai-bang-do-do.jpg?1704789148675"
-            />
-          </Tooltip>
-          <Tooltip title="quochuy">
-            <Avatar
-              alt="Nguyen Quoc Huy"
-              src="https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/434662616_406655395327860_1999765478975196741_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=5f2048&_nc_ohc=BtG-Yx3I-boAb7uTw3D&_nc_ht=scontent.fsgn5-8.fna&oh=00_AfDBefURc2qTj8-dYj8Sftrnx3Opv70JsBgzveIEXeYEMA&oe=6615120B"
-            />
-          </Tooltip>
-          <Tooltip title="quochuy">
-            <Avatar
-              alt="Nguyen Quoc Huy"
-              src="https://toigingiuvedep.vn/wp-content/uploads/2022/11/avatar-dep-nu-cho-con-gai.jpg"
-            />
-          </Tooltip>
-        </AvatarGroup>
+        {/* Hiển thị user */}
+        <BoardUserGroup board={board} />
       </Box>
     </Box>
   )
