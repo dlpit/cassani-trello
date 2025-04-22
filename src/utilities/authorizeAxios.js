@@ -17,11 +17,8 @@ authorizeAxiosInstance.defaults.timeout = 600000
 // WithCredentials: Cho phép axios tự động gửi cookie trong mỗi request lên BE (phục vụ cho việc lưu JWT tokens (refresh & access) vào trong httpOnly cookie từ BE trả về)
 authorizeAxiosInstance.defaults.withCredentials = true
 
-// Add CORS headers to requests when in production
-if (window.location.hostname !== 'localhost') {
-  authorizeAxiosInstance.defaults.headers.common['Access-Control-Allow-Origin'] = 'https://cassani-api.onrender.com'
-  authorizeAxiosInstance.defaults.headers.common['Access-Control-Allow-Credentials'] = true
-}
+// Check if we're in production environment (not localhost)
+const isProduction = window.location.hostname !== 'localhost'
 
 /**
  * Cấu hình Interceptors (Bộ đánh chặn vào giữa mọi Request và Response)
@@ -30,11 +27,13 @@ if (window.location.hostname !== 'localhost') {
 // Add a request interceptor: Can thiệp vào giữa mỗi request trước khi nó được gửi đi
 authorizeAxiosInstance.interceptors.request.use((config) => {
   // Do something before request is sent
-
-  // Check for stored token and add it to headers if we're in production
-  const storedToken = localStorage.getItem('cassani_access_token')
-  if (storedToken && window.location.hostname !== 'localhost') {
-    config.headers.Authorization = `Bearer ${storedToken}`
+  
+  // For production environment, add token from localStorage if it exists
+  if (isProduction) {
+    const accessToken = localStorage.getItem('cassani_access_token')
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`
+    }
   }
 
   // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
@@ -50,6 +49,11 @@ let refreshTokenPromise = null
 authorizeAxiosInstance.interceptors.response.use((response) => {
   // Mã http status code từ 200 đến 299 sẽ được xử lý ở đây
 
+  // If we received a new token in the response headers, store it (for production)
+  if (isProduction && response.headers['new-access-token']) {
+    localStorage.setItem('cassani_access_token', response.headers['new-access-token'])
+  }
+
   // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
   interceptorLoadingElements(false)
   return response
@@ -60,8 +64,32 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
   interceptorLoadingElements(false)
 
   if (error.response?.status === 401) {
-    // Gọi API đăng xuất
-    axiosReduxStore.dispatch(logoutUserAPI(false))
+    // Don't logout immediately in production for 401 errors
+    // Try to refresh the token first
+    if (isProduction && !error.config._retry) {
+      const originalRequest = error.config
+      originalRequest._retry = true
+      
+      return refreshTokenAPI()
+        .then(data => {
+          if (data?.accessToken) {
+            localStorage.setItem('cassani_access_token', data.accessToken)
+            originalRequest.headers['Authorization'] = `Bearer ${data.accessToken}`
+            return authorizeAxiosInstance(originalRequest)
+          }
+          // If no token is returned, logout
+          axiosReduxStore.dispatch(logoutUserAPI(false))
+          return Promise.reject(error)
+        })
+        .catch(() => {
+          // If refresh token fails, logout
+          axiosReduxStore.dispatch(logoutUserAPI(false))
+          return Promise.reject(error)
+        })
+    } else {
+      // For development or after retry, logout
+      axiosReduxStore.dispatch(logoutUserAPI(false))
+    }
   }
 
   // Nếu mã lỗi trả về từ API là 410 - GONE thì tự động refresh token và thử lại request
@@ -71,6 +99,9 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
       refreshTokenPromise = refreshTokenAPI()
         .then(data => {
           // Trường hợp nếu cần lưu access token vào localStorage thì thực hiện ở đây
+          if (isProduction && data?.accessToken) {
+            localStorage.setItem('cassani_access_token', data.accessToken)
+          }
           return data?.accessToken
         })
         .catch(_error => {
