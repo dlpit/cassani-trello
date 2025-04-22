@@ -9,6 +9,12 @@ export const loginUserAPI = createAsyncThunk(
   'user/loginUserAPI',
   async (data) => {
     const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/login`, data)
+    
+    // Store access token in localStorage for production use (cross-domain)
+    if (window.location.hostname !== 'localhost' && response.data?.accessToken) {
+      localStorage.setItem('cassani_access_token', response.data.accessToken)
+    }
+    
     // Lưu ý: axios sẽ trả về một object có cấu trúc { data, status, statusText, headers, config, request }
     return response.data
   }
@@ -18,6 +24,12 @@ export const logoutUserAPI = createAsyncThunk(
   'user/logoutUserAPI',
   async (showSuccessMessage = true) => {
     const response = await authorizeAxiosInstance.delete(`${API_ROOT}/v1/users/logout`)
+    
+    // Clear localStorage token on logout
+    if (window.location.hostname !== 'localhost') {
+      localStorage.removeItem('cassani_access_token')
+    }
+    
     if (showSuccessMessage) {
       toast.success('Logout successfully!')
     }
