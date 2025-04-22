@@ -17,6 +17,12 @@ authorizeAxiosInstance.defaults.timeout = 600000
 // WithCredentials: Cho phép axios tự động gửi cookie trong mỗi request lên BE (phục vụ cho việc lưu JWT tokens (refresh & access) vào trong httpOnly cookie từ BE trả về)
 authorizeAxiosInstance.defaults.withCredentials = true
 
+// Add CORS headers to requests when in production
+if (window.location.hostname !== 'localhost') {
+  authorizeAxiosInstance.defaults.headers.common['Access-Control-Allow-Origin'] = 'https://cassani-api.onrender.com'
+  authorizeAxiosInstance.defaults.headers.common['Access-Control-Allow-Credentials'] = true
+}
+
 /**
  * Cấu hình Interceptors (Bộ đánh chặn vào giữa mọi Request và Response)
  * https://axios-http.com/docs/interceptors
@@ -24,6 +30,12 @@ authorizeAxiosInstance.defaults.withCredentials = true
 // Add a request interceptor: Can thiệp vào giữa mỗi request trước khi nó được gửi đi
 authorizeAxiosInstance.interceptors.request.use((config) => {
   // Do something before request is sent
+
+  // Check for stored token and add it to headers if we're in production
+  const storedToken = localStorage.getItem('cassani_access_token')
+  if (storedToken && window.location.hostname !== 'localhost') {
+    config.headers.Authorization = `Bearer ${storedToken}`
+  }
 
   // Chặn tất cả các element có class 'interceptor-loading' để tránh user spam click
   interceptorLoadingElements(true)
