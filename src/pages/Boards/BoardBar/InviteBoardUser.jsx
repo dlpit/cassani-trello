@@ -11,6 +11,8 @@ import { EMAIL_RULE, FIELD_REQUIRED_MESSAGE, EMAIL_RULE_MESSAGE } from '~/utilit
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { inviteUserToBoardAPI } from '~/apis'
 
+import { socketIoInstance } from '~/socketClient'
+
 function InviteBoardUser({ boardId }) {
   /**
    * Xử lý Popover để ẩn hoặc hiện một popup nhỏ, tương tự docs để tham khảo ở đây:
@@ -29,13 +31,13 @@ function InviteBoardUser({ boardId }) {
     const { inviteeEmail } = data
     // console.log('inviteeEmail:', inviteeEmail)
     // Gọi API để mời một người dùng nào đó join vào board
-    inviteUserToBoardAPI({ inviteeEmail, boardId }).then(() => {
+    inviteUserToBoardAPI({ inviteeEmail, boardId }).then(invitation => {
       // Bước 1: Clear thẻ input sử dụng react-hook-form bằng setValue
       setValue('inviteeEmail', null)
       setAnchorPopoverElement(null)
 
       // Bước 2: Mời một người dùng vào board xong thì cũng sẽ gửi/emit sự kiện socket lên server (tính năng real-time)
-      // Mấy buổi sau...
+      socketIoInstance.emit('FE_USER_INVITE_TO_BOARD', invitation)
     })
   }
 
