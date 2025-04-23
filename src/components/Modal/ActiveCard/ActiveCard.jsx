@@ -92,6 +92,10 @@ function ActiveCard() {
     callApiUpdateCard({ description: newDescription })
   }
 
+  const onAddCardComment = async (commentToAdd) => {
+    await callApiUpdateCard({ commentToAdd })
+  }
+
   const onUploadCardCover = (event) => {
     const error = singleFileValidator(event.target?.files[0])
     if (error) {
@@ -185,6 +189,7 @@ function ActiveCard() {
               {/* Feature 04: Xử lý các hành động, ví dụ comment vào Card */}
               <CardActivitySection
                 cardComments={activeCard?.comments}
+                onAddCardComment={onAddCardComment}
               />
             </Box>
           </Grid>
