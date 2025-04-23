@@ -6,10 +6,9 @@ import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import SpeedIcon from '@mui/icons-material/Speed'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import Tooltip from '@mui/material/Tooltip'
-import Button from '@mui/material/Button'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utilities/formatters'
 import BoardUserGroup from './BoardUserGroup'
+import InviteBoardUser from './InviteBoardUser'
 
 const CUSTOM_STYLE = {
   color: '#F2F2F2',
@@ -76,17 +75,8 @@ function BoardBar({ board }) {
         />
       </Box>
       <Box sx={{display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button
-          variant="outlined" 
-          startIcon={ <PersonAddIcon /> }
-          sx={{
-            color: '#F2F2F2',
-            borderColor: '#F2F2F2',
-            '&:hover': { borderColor: '#F2F2F2' }
-          }}
-        >
-          Invite
-        </Button>
+        {/* Xử lý mời user vào làm thành viên của cái board */}
+        <InviteBoardUser boardId={board._id} />
         {/* Hiển thị user */}
         <BoardUserGroup boardUsers={board.FE_allUsers} />
       </Box>
