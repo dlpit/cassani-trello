@@ -40,6 +40,7 @@ import {
   selectIsShowModalActiveCard
 } from '~/redux/activeCard/activeCardSlice'
 import { updateCardDetailsAPI } from '~/apis'
+import { updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice'
 
 
 import { styled } from '@mui/material/styles'
@@ -79,6 +80,7 @@ function ActiveCard() {
   const callApiUpdateCard = async (updateData) => {
     const updatedCard = await updateCardDetailsAPI(activeCard._id, updateData)
     dispatch(updateCurrentActiveCard(updatedCard))
+    dispatch(updateCardInBoard(updatedCard))
   }
 
   const onUpdateCardTitle = (newTitle) => {
@@ -86,8 +88,11 @@ function ActiveCard() {
     callApiUpdateCard({ title: newTitle.trim() })
   }
 
+  const onUpdateCardDescription = (newDescription) => {
+    callApiUpdateCard({ description: newDescription })
+  }
+
   const onUploadCardCover = (event) => {
-    console.log(event.target?.files[0])
     const error = singleFileValidator(event.target?.files[0])
     if (error) {
       toast.error(error)
@@ -96,7 +101,10 @@ function ActiveCard() {
     let reqData = new FormData()
     reqData.append('cardCover', event.target?.files[0])
 
-    // Gọi API...
+    toast.promise(
+      callApiUpdateCard(reqData).finally(() => { event.target.value = '' }),
+      { pending: 'Updating...' }
+    )
   }
 
   return (
@@ -130,7 +138,7 @@ function ActiveCard() {
         <Box sx={{ mb: 4 }}>
           <img
             style={{ width: '100%', height: '320px', borderRadius: '6px', objectFit: 'cover' }}
-            src="https://trungquandev.com/wp-content/uploads/2023/08/fit-banner-for-facebook-blog-trungquandev-codetq.png"
+            src={activeCard?.cover}
             alt="card-cover"
           />
         </Box>
@@ -162,7 +170,10 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 03: Xử lý mô tả của Card */}
-              <CardDescriptionMdEditor />
+              <CardDescriptionMdEditor
+                cardDescriptionProp={activeCard?.description}
+                onUpdateCardDescription={onUpdateCardDescription}
+              />
             </Box>
 
             <Box sx={{ mb: 3 }}>
@@ -172,7 +183,9 @@ function ActiveCard() {
               </Box>
 
               {/* Feature 04: Xử lý các hành động, ví dụ comment vào Card */}
-              <CardActivitySection />
+              <CardActivitySection
+                cardComments={activeCard?.comments}
+              />
             </Box>
           </Grid>
 

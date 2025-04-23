@@ -88,7 +88,7 @@ function BoardBar({ board }) {
           Invite
         </Button>
         {/* Hiển thị user */}
-        <BoardUserGroup board={board} />
+        <BoardUserGroup boardUsers={board.FE_allUsers} />
       </Box>
     </Box>
   )
