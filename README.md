@@ -63,7 +63,7 @@ Before installing, make sure you have:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/cassani-trello.git
+   git clone https://github.com/dlpit/cassani-trello.git
    cd cassani-trello
    ```
 
@@ -80,7 +80,7 @@ Before installing, make sure you have:
    The project uses environment variables for API configuration:
 
    - Development API: `http://localhost:8017`
-   - Production API: `https://cassani-api.onrender.com`
+   - Production API: `...`
 
 ## 🏃‍♂️ Running the Application
 
