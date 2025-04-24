@@ -20,6 +20,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import CloseIcon from '@mui/icons-material/Close'
 import { Link } from 'react-router-dom'
 import Notifications from './Notifications'
+import AutoCompleteSearchBoard from './SearchBoards/AutoCompleteSearchBoard'
 
 function AppBar() {
   const [searchValue, setSearchValue] = useState('')
@@ -61,48 +62,7 @@ function AppBar() {
         </Box>
       </Box> 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <TextField
-          id="outlined-search"
-          label="Search ..."
-          type="text"
-          size='small'
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: '#F2F2F2BF' }}/>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <CloseIcon
-                  fontSize='small'
-                  sx={{ color: searchValue ? '#F2F2F2BF' : 'transparent', cursor: 'pointer' }}
-                  onClick={() => setSearchValue('')}
-                />
-              </InputAdornment>
-            )
-          }}
-          sx={{
-            minWidth: '120px',
-            maxWidth: '180px',
-            '& label': { color: '#F2F2F2BF' },
-            '& input': { color: '#F2F2F2BF' },
-            '& label.Mui-focused': { color: '#F2F2F2BF' },
-            '& .MuiOutlinedInput-root':{
-              '& fieldset': {
-                borderColor: '#F2F2F2BF'
-              },
-              '&:hover fieldset': {
-                borderColor: '#F2F2F2BF'
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: '#F2F2F2BF'
-              }
-            }
-          }}
-        />
+        <AutoCompleteSearchBoard />
         <SelectMode />
         {/* Xử lý Notifications */}
         <Notifications />
