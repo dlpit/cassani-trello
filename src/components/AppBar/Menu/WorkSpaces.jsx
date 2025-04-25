@@ -1,8 +1,4 @@
 import React from 'react'
-import Cloud from '@mui/icons-material/Cloud'
-import ContentCopy from '@mui/icons-material/ContentCopy'
-import ContentCut from '@mui/icons-material/ContentCut'
-import ContentPaste from '@mui/icons-material/ContentPaste'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -12,6 +8,11 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard'
+import WorkspacesIcon from '@mui/icons-material/Workspaces'
+import AddIcon from '@mui/icons-material/Add'
+import VpnLockIcon from '@mui/icons-material/VpnLock'
+import { Link } from 'react-router-dom'
 
 function WorkSpaces() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -45,40 +46,51 @@ function WorkSpaces() {
           'aria-labelledby': 'basic-button-workspaces'
         }}
       >
-        <MenuItem>
+        {/* Không gian làm việc hiện tại (Current Workspace) */}
+        <Typography variant="subtitle2" sx={{ px: 2, pt: 1, pb: 0.5, fontWeight: 'bold' }}>
+          Không gian làm việc hiện tại
+        </Typography>
+        <Box sx={{ 
+          px: 2, 
+          py: 1, 
+          display: 'flex', 
+          alignItems: 'center',
+          bgcolor: 'action.selected',
+          borderRadius: 1,
+          mx: 1
+        }}>
           <ListItemIcon>
-            <ContentCut fontSize="small" />
+            <SpaceDashboardIcon fontSize="small" sx={{ color: 'primary.main' }} />
           </ListItemIcon>
-          <ListItemText>Cut</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘X
+          <Typography sx={{ color: 'text.primary', fontWeight: 'medium' }}>
+            Casani Trello
           </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <ContentCopy fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Copy</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘C
-          </Typography>
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <ContentPaste fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Paste</ListItemText>
-          <Typography variant="body2" color="text.secondary">
-            ⌘V
-          </Typography>
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <Cloud fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Web Clipboard</ListItemText>
-        </MenuItem>
+        </Box>
+        <Divider sx={{ my: 1 }} />
+
+        {/* Không gian làm việc của bạn (Your Workspaces) */}
+        <Typography variant="subtitle2" sx={{ px: 2, pt: 1, pb: 0.5, fontWeight: 'bold' }}>
+          Không gian làm việc của bạn
+        </Typography>
+        <Link to="/boards" style={{ color: 'inherit', textDecoration: 'none' }}>
+          <Box sx={{ 
+            px: 2, 
+            py: 1, 
+            display: 'flex', 
+            alignItems: 'center',
+            borderRadius: 1,
+            mx: 1,
+            '&:hover': { bgcolor: 'action.hover' },
+            cursor: 'pointer'
+          }} onClick={handleClose}>
+            <ListItemIcon>
+              <SpaceDashboardIcon fontSize="small" sx={{ color: 'primary.main' }} />
+            </ListItemIcon>
+            <Typography sx={{ color: 'text.primary', fontWeight: 'medium' }}>
+              Casani Trello
+            </Typography>
+          </Box>
+        </Link>
       </Menu>
     </Box>
   )
