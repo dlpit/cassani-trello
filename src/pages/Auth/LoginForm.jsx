@@ -12,7 +12,7 @@ import Zoom from '@mui/material/Zoom'
 import Alert from '@mui/material/Alert'
 import { useForm } from 'react-hook-form'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
-import { 
+import {
   FIELD_REQUIRED_MESSAGE,
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
@@ -52,36 +52,82 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit(submitLogin)}>
       <Zoom in={true} style={{ transitionDelay: '200ms' }}>
-        <MuiCard sx={{ minWidth: 500, maxWidth: 400, marginTop: '6em' }}>
+        <MuiCard 
+          sx={{ 
+            minWidth: 500, 
+            maxWidth: 400, 
+            marginTop: '6em',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
           <Box sx={{
-            margin: '1em',
+            margin: '1.5em 1em 1em',
             display: 'flex',
             justifyContent: 'center',
             gap: 1
           }}>
-            <Avatar sx={{ bgcolor: 'primary.main' }}><LockIcon /></Avatar>
-            <Avatar sx={{ bgcolor: 'primary.main' }}><TrelloIcon /></Avatar>
+            <Avatar 
+              sx={{ 
+                bgcolor: 'primary.main', 
+                width: 56, 
+                height: 56,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)' 
+              }}
+            >
+              <LockIcon fontSize="large" />
+            </Avatar>
+            <Avatar 
+              sx={{ 
+                bgcolor: 'primary.main', 
+                width: 56, 
+                height: 56,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)' 
+              }}
+            >
+              <TrelloIcon />
+            </Avatar>
           </Box>
-          <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
-            Author: DLPIT
+          <Typography 
+            variant="h5" 
+            component="h1" 
+            sx={{ 
+              textAlign: 'center', 
+              fontWeight: 'bold', 
+              mt: 2,
+              color: 'primary.main'
+            }}
+          >
+            Sign In
+          </Typography>
+          <Box sx={{ marginTop: '0.5em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
+            Author: Casani
           </Box>
-          <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0 1em' }}>
+          <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0 1.5em' }}>
             {verifiedEmail &&
-            <Alert severity="success" sx={{ '.MuiAlert-message': { overflow: 'hidden' } }}>
+            <Alert severity="success" sx={{ 
+              '.MuiAlert-message': { overflow: 'hidden' },
+              mb: 2
+            }}>
               Your email&nbsp;
               <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>{verifiedEmail}</Typography>
               &nbsp;has been verified.<br />Now you can login to enjoy our services! Have a good day!
             </Alert>
             }
             {registeredEmail &&
-            <Alert severity="info" sx={{ '.MuiAlert-message': { overflow: 'hidden' } }}>
+            <Alert severity="info" sx={{ 
+              '.MuiAlert-message': { overflow: 'hidden' },
+              mb: 2
+            }}>
               An email has been sent to&nbsp;
               <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>{registeredEmail}</Typography>
               <br />Please check and verify your account before logging in!
             </Alert>
             }
           </Box>
-          <Box sx={{ padding: '0 1em 1em 1em' }}>
+          <Box sx={{ padding: '0 1.5em 1.5em' }}>
             <Box sx={{ marginTop: '1em' }}>
               <TextField
                 autoFocus
@@ -90,6 +136,11 @@ function LoginForm() {
                 type="text"
                 variant="outlined"
                 error={!!errors['email']}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px'
+                  }
+                }}
                 {...register('email', {
                   required: FIELD_REQUIRED_MESSAGE,
                   pattern: {
@@ -107,6 +158,11 @@ function LoginForm() {
                 type="password"
                 variant="outlined"
                 error={!!errors['password']}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px'
+                  }
+                }}
                 {...register('password', {
                   required: FIELD_REQUIRED_MESSAGE,
                   pattern: {
@@ -118,7 +174,7 @@ function LoginForm() {
               <FieldErrorAlert errors={errors} fieldName={'password'} />
             </Box>
           </Box>
-          <CardActions sx={{ padding: '0 1em 1em 1em' }}>
+          <CardActions sx={{ padding: '0 1.5em 1.5em' }}>
             <Button
               className="interceptor-loading"
               type="submit"
@@ -126,14 +182,32 @@ function LoginForm() {
               color="primary"
               size="large"
               fullWidth
+              sx={{ 
+                borderRadius: '8px', 
+                padding: '10px 0',
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                '&:hover': {
+                  boxShadow: '0 6px 16px rgba(0,0,0,0.25)'
+                }
+              }}
             >
               Login
             </Button>
           </CardActions>
-          <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
-            <Typography>New to Cassani?</Typography>
+          <Box sx={{ padding: '0 1.5em 1.5em', textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ mb: 0.5 }}>New to Cassani?</Typography>
             <Link to="/register" style={{ textDecoration: 'none' }}>
-              <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>Create account!</Typography>
+              <Typography variant="body1" sx={{ 
+                fontWeight: 'bold',
+                color: 'primary.main', 
+                '&:hover': { 
+                  color: '#ffbb39' 
+                } 
+              }}>
+                Create account!
+              </Typography>
             </Link>
           </Box>
         </MuiCard>

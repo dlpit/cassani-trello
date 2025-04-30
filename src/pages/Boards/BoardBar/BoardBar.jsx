@@ -5,10 +5,14 @@ import VpnLockIcon from '@mui/icons-material/VpnLock'
 import AddToDriveIcon from '@mui/icons-material/AddToDrive'
 import SpeedIcon from '@mui/icons-material/Speed'
 import FilterListIcon from '@mui/icons-material/FilterList'
+import StarIcon from '@mui/icons-material/Star'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
 import Tooltip from '@mui/material/Tooltip'
 import { capitalizeFirstLetter } from '~/utilities/formatters'
 import BoardUserGroup from './BoardUserGroup'
 import InviteBoardUser from './InviteBoardUser'
+import { useDispatch } from 'react-redux'
+import { toggleBoardStar } from '~/redux/activeBoard/activeBoardSlice'
 
 const CUSTOM_STYLE = {
   color: '#F2F2F2',
@@ -23,9 +27,12 @@ const CUSTOM_STYLE = {
   }
 }
 function BoardBar({ board }) {
-  // // Destructuring
-  // const { board } = props
-  // const board = props.board
+  const dispatch = useDispatch()
+
+  const handleToggleStar = () => {
+    dispatch(toggleBoardStar(board?._id))
+  }
+
   return (
     <Box sx={{
       bgcolor: (theme) => (theme.palette.mode === 'light' ? '#BABCA7' : '#4C4A45'),
@@ -55,6 +62,15 @@ function BoardBar({ board }) {
           label={capitalizeFirstLetter(board?.type)}
           clickable
         />
+        <Tooltip title={board?.starred ? 'Remove from starred' : 'Add to starred'}>
+          <Chip
+            sx={CUSTOM_STYLE}
+            icon={board?.starred ? <StarIcon sx={{ color: '#F8D146 !important' }} /> : <StarBorderIcon />}
+            label="Star"
+            clickable
+            onClick={handleToggleStar}
+          />
+        </Tooltip>
         <Chip
           sx={CUSTOM_STYLE}
           icon={<AddToDriveIcon />}

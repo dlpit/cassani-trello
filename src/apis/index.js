@@ -85,3 +85,9 @@ export const inviteUserToBoardAPI = async (data) => {
   toast.success('User invited to board successfully!')
   return response.data
 }
+
+export const toggleBoardStarAPI = async (boardId) => {
+  const response = await authorizeAxiosInstance.put(`${API_ROOT}/v1/boards/${boardId}/toggle-star`)
+  toast.success('Board star status updated!')
+  return response.data
+}
