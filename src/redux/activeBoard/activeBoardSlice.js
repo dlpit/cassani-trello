@@ -4,6 +4,7 @@ import { API_ROOT } from '~/utilities/constants'
 import { mapOrder } from '~/utilities/sorts'
 import { isEmpty } from 'lodash'
 import { genaratePlaceholderCard } from '~/utilities/formatters'
+import { toggleBoardStarAPI } from '~/apis'
 
 // Các hành động gọi api (bất đồng bộ) và cập nhật dữ liệu vào Redux, dùng Middleware createAsyncThunk đi kèm với extraReducers
 // https://redux-toolkit.js.org/api/createAsyncThunk
@@ -13,6 +14,15 @@ export const fetchBoardDetailsAPI = createAsyncThunk(
     const response = await authorizeAxiosInstance.get(`${API_ROOT}/v1/boards/${boardId}`)
     // Lưu ý: axios sẽ trả về một object có cấu trúc { data, status, statusText, headers, config, request }
     return response.data
+  }
+)
+
+// Async thunk to toggle board starred status
+export const toggleBoardStar = createAsyncThunk(
+  'activeBoard/toggleBoardStar',
+  async (boardId) => {
+    const response = await toggleBoardStarAPI(boardId)
+    return response
   }
 )
 
@@ -75,6 +85,13 @@ export const activeBoardSlice = createSlice({
       })
       // Update lại dữ liệu của currentActiveBoard
       state.currentActiveBoard = board
+    })
+    
+    // Handle toggle board star status success
+    builder.addCase(toggleBoardStar.fulfilled, (state, action) => {
+      if (state.currentActiveBoard) {
+        state.currentActiveBoard.starred = action.payload.starred
+      }
     })
   }
 })

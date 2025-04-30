@@ -44,29 +44,71 @@ function RegisterForm() {
   return (
     <form onSubmit={handleSubmit(submitRegister)}>
       <Zoom in={true} style={{ transitionDelay: '200ms' }}>
-        <MuiCard sx={{ minWidth: 500, maxWidth: 400, marginTop: '6em' }}>
+        <MuiCard 
+          sx={{ 
+            minWidth: 500, 
+            maxWidth: 400, 
+            marginTop: '6em',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+            background: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)'
+          }}
+        >
           <Box sx={{
-            margin: '1em',
+            margin: '1.5em 1em 1em',
             display: 'flex',
             justifyContent: 'center',
             gap: 1
           }}>
-            <Avatar sx={{ bgcolor: 'primary.main' }}> <LockIcon /></Avatar>
-            <Avatar ><TrelloIcon /></Avatar>
+            <Avatar 
+              sx={{ 
+                bgcolor: 'primary.main', 
+                width: 56, 
+                height: 56,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)' 
+              }}
+            >
+              <LockIcon fontSize="large" />
+            </Avatar>
+            <Avatar 
+              sx={{ 
+                width: 56, 
+                height: 56,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)' 
+              }}
+            >
+              <TrelloIcon />
+            </Avatar>
           </Box>
-          <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
-            Author: DlPIT
+          <Typography 
+            variant="h5" 
+            component="h1" 
+            sx={{ 
+              textAlign: 'center', 
+              fontWeight: 'bold', 
+              mt: 2,
+              color: 'primary.main'
+            }}
+          >
+            Create Account
+          </Typography>
+          <Box sx={{ marginTop: '0.5em', display: 'flex', justifyContent: 'center', color: theme => theme.palette.grey[500] }}>
+            Author: Casani
           </Box>
-          <Box sx={{ padding: '0 1em 1em 1em' }}>
-            <Box sx={{ marginTop: '1em' }}>
+          <Box sx={{ padding: '0 1.5em 1.5em' }}>
+            <Box sx={{ marginTop: '1.5em' }}>
               <TextField
-                // autoComplete="nope"
-                // autoFocus
                 fullWidth
                 label="Enter Email..."
                 type="text"
                 variant="outlined"
                 error={!!errors['email']}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px'
+                  }
+                }}
                 {...register('email', {
                   required: FIELD_REQUIRED_MESSAGE,
                   pattern: {
@@ -84,6 +126,11 @@ function RegisterForm() {
                 type="password"
                 variant="outlined"
                 error={!!errors['password']}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px'
+                  }
+                }}
                 {...register('password', {
                   required: FIELD_REQUIRED_MESSAGE,
                   pattern: {
@@ -101,6 +148,11 @@ function RegisterForm() {
                 type="password"
                 variant="outlined"
                 error={!!errors['password_confirmation']}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '8px'
+                  }
+                }}
                 {...register('password_confirmation', {
                   validate: (value) => {
                     if (value === watch('password')) return true
@@ -111,7 +163,7 @@ function RegisterForm() {
               <FieldErrorAlert errors={errors} fieldName={'password_confirmation'} />
             </Box>
           </Box>
-          <CardActions sx={{ padding: '0 1em 1em 1em' }}>
+          <CardActions sx={{ padding: '0 1.5em 1.5em' }}>
             <Button
               className="interceptor-loading"
               type="submit"
@@ -119,14 +171,32 @@ function RegisterForm() {
               color="primary"
               size="large"
               fullWidth
+              sx={{ 
+                borderRadius: '8px', 
+                padding: '10px 0',
+                fontWeight: 'bold',
+                fontSize: '1rem',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                '&:hover': {
+                  boxShadow: '0 6px 16px rgba(0,0,0,0.25)'
+                }
+              }}
             >
               Register
             </Button>
           </CardActions>
-          <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
-            <Typography>Already have an account?</Typography>
+          <Box sx={{ padding: '0 1.5em 1.5em', textAlign: 'center' }}>
+            <Typography variant="body2" sx={{ mb: 0.5 }}>Already have an account?</Typography>
             <Link to="/login" style={{ textDecoration: 'none' }}>
-              <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>Log in!</Typography>
+              <Typography variant="body1" sx={{ 
+                fontWeight: 'bold',
+                color: 'primary.main', 
+                '&:hover': { 
+                  color: '#ffbb39' 
+                } 
+              }}>
+                Log in!
+              </Typography>
             </Link>
           </Box>
         </MuiCard>
