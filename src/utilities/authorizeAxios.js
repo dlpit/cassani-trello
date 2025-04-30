@@ -64,9 +64,13 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
   interceptorLoadingElements(false)
 
   if (error.response?.status === 401) {
+    // Skip token refresh for auth endpoints
+    const isAuthEndpoint = error.config.url.includes('/register') || 
+                            error.config.url.includes('/login');
+                            
     // Don't logout immediately in production for 401 errors
-    // Try to refresh the token first
-    if (isProduction && !error.config._retry) {
+    // Try to refresh the token first (except for auth endpoints)
+    if (isProduction && !error.config._retry && !isAuthEndpoint) {
       const originalRequest = error.config
       originalRequest._retry = true
       
@@ -86,8 +90,8 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
           axiosReduxStore.dispatch(logoutUserAPI(false))
           return Promise.reject(error)
         })
-    } else {
-      // For development or after retry, logout
+    } else if (!isAuthEndpoint) {
+      // Only logout for non-auth endpoints
       axiosReduxStore.dispatch(logoutUserAPI(false))
     }
   }
