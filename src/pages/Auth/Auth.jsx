@@ -16,7 +16,7 @@ function Auth() {
       minHeight: '100vh',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      background: 'url("src/assets/auth/login-register-background.jpg")',
+      background: 'url("https://res.cloudinary.com/cassani/image/upload/v1746054135/login-register-background_bj0azw.jpg")',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
